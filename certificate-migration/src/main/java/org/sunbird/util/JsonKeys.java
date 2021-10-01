@@ -6,11 +6,11 @@ package org.sunbird.util;
  * @author anmolgupta
  */
 public class JsonKeys {
-    public static final String SUNBIRD_CASSANDRA_HOST = "sunbird_cassandra_host";
-    public static final String SUNBIRD_CASSANDRA_KEYSPACENAME = "sunbird_cassandra_keyspace";
-    public static final String SUNBIRD_CASSANDRA_PORT = "sunbird_cassandra_port";
-    public static final String SUNBIRD_ES_IP = "sunbird_es_host";
-    public static final String SUNBIRD_ES_PORT = "sunbird_es_port";
+    public static final String SUNBIRD_CASSANDRA_HOST = "127.0.0.1";
+    public static final String SUNBIRD_CASSANDRA_KEYSPACENAME = "sunbird";
+    public static final String SUNBIRD_CASSANDRA_PORT = "9042";
+    public static final String SUNBIRD_ES_IP = "localhost";
+    public static final String SUNBIRD_ES_PORT = "9200";
     public static final String CLOUD_STORAGE_TYPE = "CLOUD_STORAGE_TYPE";
     public static final String CLOUD_UPLOAD_RETRY_COUNT = "CLOUD_UPLOAD_RETRY_COUNT";
     public static final String AZURE_STORAGE_SECRET = "AZURE_STORAGE_SECRET";

@@ -13,9 +13,9 @@
 						<a class="item" suiTabHeader="2" [(isActive)]="recipientTab"
 							[ngStyle]="certSelected.length === 0 ? { cursor: 'not-allowed' } : { cursor: 'pointer' }"
 							[isDisabled]="certSelected.length === 0 ? true : false">Recipient & Issuer details</a>
-						<a class="item" suiTabHeader="3" [(isActive)]="signatoryTab"
+						<!-- <a class="item" suiTabHeader="3" [(isActive)]="signatoryTab"
 							[ngStyle]="certSelected.length === 0 ? { cursor: 'not-allowed' } : { cursor: 'pointer' }"
-							[isDisabled]="certSelected.length === 0 ? true : false">Signatory details</a>
+							[isDisabled]="certSelected.length === 0 ? true : false">Signatory details</a> -->
 						<a class="item" suiTabHeader="4" [(isActive)]="storageTab"
 							[ngStyle]="certSelected.length === 0 ? { cursor: 'not-allowed' } : { cursor: 'pointer' }"
 							[isDisabled]="certSelected.length === 0 ? true : false">Storage Info</a>
@@ -80,7 +80,7 @@
 						<app-default-template #formData [formFieldProperties]="formFieldProperties">
 						</app-default-template>
 						<div class="mt-20 d-flex flex-jc-flex-end">
-							<button class="ui blue button" (click)="signatoryTab = true">Next</button>
+							<button class="ui blue button" (click)="storageTab = true">Next</button>
 						</div>
 					</div>
 
