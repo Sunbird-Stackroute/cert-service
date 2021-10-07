@@ -20,7 +20,7 @@ public class SendGridEmail {
         Mail mail;
         SendGrid sg;
         com.sendgrid.Response response = null;
-        Email from = new Email("");
+        Email from = new Email("enter email here");
         from.setName("StackRoute Certification Service");
         int index = 0;
         for (String recipients : recipientId) {
