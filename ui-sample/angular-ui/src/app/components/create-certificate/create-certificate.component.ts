@@ -77,11 +77,14 @@ export class CreateCertificateComponent implements OnInit {
   getTemplates() {
     this.certificateService.getCertificateList().subscribe(res => {
       for (const key in res.result) {
-        if (key.endsWith(`niitMeritCertificateHtml`)) {
+        if (key.endsWith(`niitMeritHtml`)) {
           res.result[key] = `../../assets/certificates/niitMeritHtml.svg`;
         }
         if (key.endsWith(`niitParticipationHtml`)) {
           res.result[key] = `../../assets/certificates/niitParticipationHtml.svg`;
+        }
+        if (key.endsWith(`niitMeritHtml`)) {
+          res.result[key] = `../../assets/certificates/niitMeritHtml.svg`;
         }
       }
       this.showAllCertsKeys = Object.keys(res.result);

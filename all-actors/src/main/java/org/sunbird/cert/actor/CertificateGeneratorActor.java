@@ -248,7 +248,7 @@ public class CertificateGeneratorActor extends BaseActor {
 
     private String uploadQrCode(File qrCodeFile,Map<String, String> properties) throws IOException {
         CertStoreFactory certStoreFactory = new CertStoreFactory(properties);
-        QRStorageParams qrStorageParams = new QRStorageParams(certVar.getCloudStorageType());
+        QRStorageParams qrStorageParams = new QRStorageParams("azure");
         StoreConfig storeConfig = new StoreConfig(qrStorageParams.storeParams);
         ICertStore certStore = certStoreFactory.getCertStore(storeConfig, BooleanUtils.toBoolean(properties.get(JsonKey.PREVIEW)));
         String qrImageUrl = certStore.getPublicLink(qrCodeFile, certStoreFactory.setCloudPath(storeConfig));
