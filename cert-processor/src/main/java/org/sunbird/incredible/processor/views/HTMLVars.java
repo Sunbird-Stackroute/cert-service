@@ -37,7 +37,9 @@ public class HTMLVars {
         $location,
         $studentRegNo,
         $certificateNum,
-        $implication
+        $implication,
+        $logoImage1,
+        $logoImage2
     }
 }
 

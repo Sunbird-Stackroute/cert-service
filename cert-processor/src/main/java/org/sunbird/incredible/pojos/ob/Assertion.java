@@ -70,6 +70,10 @@ public class Assertion extends OBBase {
 
     private String recipientEmail;
 
+    private String logoImage1;
+
+    private String logoImage2;
+
     public Assertion() {
     }
 
@@ -225,5 +229,21 @@ public class Assertion extends OBBase {
 
     public void setRevocationReason(String revocationReason) {
         this.revocationReason = revocationReason;
+    }
+
+    public String getLogoImage1() {
+        return logoImage1;
+    }
+
+    public void setLogoImage1(String logoImage1) {
+        this.logoImage1 = logoImage1;
+    }
+
+    public String getLogoImage2() {
+        return logoImage2;
+    }
+
+    public void setLogoImage2(String logoImage2) {
+        this.logoImage2 = logoImage2;
     }
 }

@@ -52,6 +52,7 @@ public class CertificateGeneratorActor extends BaseActor {
     private static final String CERT_REGISTRY_SERVICE = "http://localhost:9010";
     private static final String REGISTRY_PDF_URL = "/certs/v1/registry/add";
     private static final String REGISTRY_SVG_URL = "/certs/v2/registry/add";
+    private static final String RULES_SERVER_URL = "http://localhost:9091/v1/grade/niit/calculate";
     private static ObjectMapper requestMapper = new ObjectMapper();
     static Map<String, String> headerMap = new HashMap<>();
     static {
@@ -126,7 +127,7 @@ public class CertificateGeneratorActor extends BaseActor {
         logger.info(request.getRequestContext(), "Properties ====== {}", properties);
         String reqMarks = properties.get(JsonKey.MARKS);
         if (reqMarks != null) {
-            properties.put(JsonKey.IMPLICATION, marksToImplication(reqMarks));
+                properties.put(JsonKey.IMPLICATION, marksToImplication(reqMarks));
         } else {
             StringUtils.isNotBlank(reqMarks);
         }
@@ -332,6 +333,8 @@ public class CertificateGeneratorActor extends BaseActor {
         properties.put(JsonKey.STUDENT_REG_NUM,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.STUDENT_REG_NUM));
         properties.put(JsonKey.CERTIFICATE_NUM,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.CERTIFICATE_NUM));
         properties.put(JsonKey.MARKS,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.MARKS));
+        properties.put(JsonKey.LOGO_IMAGE1,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.LOGO_IMAGE1));
+        properties.put(JsonKey.LOGO_IMAGE2,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.LOGO_IMAGE2));
         properties.put(JsonKey.CONTAINER_NAME, certVar.getCONTAINER_NAME());
         properties.put(JsonKey.BADGE_URL, certVar.getBADGE_URL(tag));
         properties.put(JsonKey.ISSUER_URL, certVar.getISSUER_URL());
@@ -360,7 +363,7 @@ public class CertificateGeneratorActor extends BaseActor {
         }
     }
 
-    private String marksToImplication(String reqMarks) throws IOException, ParseException {
+    private String marksToImplication(String reqMarks, String result) throws IOException, ParseException {
         double marks = Double.parseDouble(reqMarks);
         String implication = null;
         String filePath = new File("").getAbsolutePath();
@@ -375,6 +378,14 @@ public class CertificateGeneratorActor extends BaseActor {
             }
         }
         return implication;
+    }
+
+    private String marksToImplication(String reqMarks) throws IOException, ParseException {
+        Map<String, Object> req = new HashMap<>();
+        req.put("marksObtained", reqMarks);
+        String requestBody = requestMapper.writeValueAsString(req);
+        String result = CertRegistryAsyncService.makeAsyncPostCall(RULES_SERVER_URL, requestBody, headerMap);
+        return result ;
     }
 
     private void cleanup(String path, String fileName) {

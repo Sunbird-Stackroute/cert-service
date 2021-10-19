@@ -148,4 +148,6 @@ public interface JsonKey {
     String EMPTY_STRING = "";
     String RECIPIENT_EMAIL = "recipientEmail";
     String SENDGRID_ENDPOINT = "mail/send";
+    String LOGO_IMAGE1 = "logoImage1";
+    String LOGO_IMAGE2 = "logoImage2";
 }

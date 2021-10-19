@@ -107,6 +107,12 @@ public class CertificateFactory {
         if (StringUtils.isNotBlank(certModel.getRecipientEmail())) {
             certificateExtensionBuilder.setRecipientEmail(properties.get(JsonKey.RECIPIENT_EMAIl));
         }
+        if (StringUtils.isNotBlank(certModel.getLogoImage1())) {
+            certificateExtensionBuilder.setLogoImage1(properties.get(JsonKey.LOGO_IMAGE1));
+        }
+        if (StringUtils.isNotBlank(certModel.getLogoImage2())) {
+            certificateExtensionBuilder.setLogoImage2(properties.get(JsonKey.LOGO_IMAGE2));
+        }
         /**
          *
          * Certificate extension object
