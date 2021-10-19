@@ -157,7 +157,7 @@ public class CertsConstant {
 
     public String getCloudStorageType() {
         CLOUD_STORAGE_TYPE = getCloudStorageTypeFromEnv();
-        return CLOUD_STORAGE_TYPE;
+        return "azure";
     }
 
     public String getAzureStorageSecret() {

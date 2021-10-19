@@ -131,7 +131,7 @@ public interface JsonKey {
     String GRADE_MANAGEMENT_JSON = "/conf/grade_management.json";
     String GRADE_MANAGEMENT_KEY = "gradeManagement";
     String SVG_DOMAIN_URL = "https://sunbird1dev1private.blob.core.windows.net/reports";
-    String QRCODE_BASE_PATH = "http://localhost:4300/certs/";
+    String QRCODE_BASE_PATH = "http://localhost:4200/certs/";
     String REQ_ID = "reqId";
     String REQUEST_MESSAGE_ID = "msgId";
     String X_REQUEST_ID = "X-Request-ID";
@@ -148,4 +148,6 @@ public interface JsonKey {
     String EMPTY_STRING = "";
     String RECIPIENT_EMAIL = "recipientEmail";
     String SENDGRID_ENDPOINT = "mail/send";
+    String LOGO_IMAGE1 = "logoImage1";
+    String LOGO_IMAGE2 = "logoImage2";
 }

@@ -48,6 +48,8 @@ public class CertMapper {
             cert.setCertificateDescription((String) json.get(JsonKey.DESCRIPTION));
             cert.setCertificateLogo((String) json.get(JsonKey.LOGO));
             cert.setCriteria(criteria);
+            cert.setLogoImage1((String) json.get(JsonKey.LOGO_IMAGE1));
+            cert.setLogoImage2((String) json.get(JsonKey.LOGO_IMAGE2));
             String issuedDate = (String) json.get(JsonKey.ISSUE_DATE);
             if (StringUtils.isBlank(issuedDate)) {
                 cert.setIssuedDate(getCurrentDate());

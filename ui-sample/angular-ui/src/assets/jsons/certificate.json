@@ -171,6 +171,24 @@
                 "index": 11
             },
             {
+                "code": "logoImage1",
+                "dataType": "text",
+                "name": "logoImage1",
+                "label": "logoImage1",
+                "description": "logoImage1",
+                "editable": true,
+                "placeholder": "logoImage1",
+                "inputType": "text",
+                "required": true,
+                "displayProperty": "Editable",
+                "visible": true,
+                "value": "",
+                "renderingHints": {
+                  "semanticColumnWidth": "four"
+                },
+                "index": 12
+             },
+            {
                 "code": "name",
                 "dataType": "text",
                 "name": "issuerName",

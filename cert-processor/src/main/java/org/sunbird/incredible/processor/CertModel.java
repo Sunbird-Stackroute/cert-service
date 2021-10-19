@@ -47,6 +47,10 @@ public class CertModel {
     private String studentRegNo;
     private String certificateNum;
     private String implication;
+
+    private String logoImage1;
+    private String logoImage2;
+
     private static ObjectMapper mapper = new ObjectMapper();
 
     public CertModel() {
@@ -217,6 +221,22 @@ public class CertModel {
     public CertModel setImplication(String implication) {
         this.implication = implication;
         return this;
+    }
+
+    public String getLogoImage1() {
+        return logoImage1;
+    }
+
+    public void setLogoImage1(String logoImage1) {
+        this.logoImage1 = logoImage1;
+    }
+
+    public String getLogoImage2() {
+        return logoImage2;
+    }
+
+    public void setLogoImage2(String logoImage2) {
+        this.logoImage2 = logoImage2;
     }
 
     @Override

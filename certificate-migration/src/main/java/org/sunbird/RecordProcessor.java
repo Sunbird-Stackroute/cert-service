@@ -79,7 +79,8 @@ public class RecordProcessor extends StatusTracker {
 
 
     public String getEsSearchUri() {
-        String esApi = "http://" + request.getEsConnection() + "/";
+//        String esApi = "http://" + request.getEsConnection() + "/";
+        String esApi=String.format("http://localhost:9200/%s/_search",JsonKeys.CERT_ALIAS);
         logger.info("CertVars:getEsSearchUri:es uri formed:" + esApi);
         return esApi;
     }
