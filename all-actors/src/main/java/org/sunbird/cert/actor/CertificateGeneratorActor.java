@@ -52,7 +52,7 @@ public class CertificateGeneratorActor extends BaseActor {
     private static final String CERT_REGISTRY_SERVICE = "http://localhost:9010";
     private static final String REGISTRY_PDF_URL = "/certs/v1/registry/add";
     private static final String REGISTRY_SVG_URL = "/certs/v2/registry/add";
-    private static final String RULES_SERVER_URL = "http://localhost:9091/v1/grade/niit/calculate";
+//    private static final String RULES_SERVER_URL = "http://localhost:9091/v1/grade/niit/calculate";
     private static ObjectMapper requestMapper = new ObjectMapper();
     static Map<String, String> headerMap = new HashMap<>();
     static {
@@ -186,7 +186,7 @@ public class CertificateGeneratorActor extends BaseActor {
         if (reqMarks != null) {
             properties.put(JsonKey.IMPLICATION, marksToImplication(reqMarks));
         } else {
-            StringUtils.isNotBlank(reqMarks);
+            StringUtils.isNotBlank(null);
         }
         CertMapper certMapper = new CertMapper(properties);
         List<CertModel> certModelList = certMapper.toList(request.getRequest());
@@ -335,6 +335,7 @@ public class CertificateGeneratorActor extends BaseActor {
         properties.put(JsonKey.MARKS,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.MARKS));
         properties.put(JsonKey.LOGO_IMAGE1,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.LOGO_IMAGE1));
         properties.put(JsonKey.LOGO_IMAGE2,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.LOGO_IMAGE2));
+        properties.put(JsonKey.CERTIFY,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.CERTIFY));
         properties.put(JsonKey.CONTAINER_NAME, certVar.getCONTAINER_NAME());
         properties.put(JsonKey.BADGE_URL, certVar.getBADGE_URL(tag));
         properties.put(JsonKey.ISSUER_URL, certVar.getISSUER_URL());
@@ -381,11 +382,20 @@ public class CertificateGeneratorActor extends BaseActor {
     }
 
     private String marksToImplication(String reqMarks) throws IOException, ParseException {
-        Map<String, Object> req = new HashMap<>();
-        req.put("marksObtained", reqMarks);
-        String requestBody = requestMapper.writeValueAsString(req);
-        String result = CertRegistryAsyncService.makeAsyncPostCall(RULES_SERVER_URL, requestBody, headerMap);
-        return result ;
+        double marks = Double.parseDouble(reqMarks);
+        String implication = null;
+        String filePath = new File("").getAbsolutePath();
+        Object obj = new JSONParser().parse(new FileReader(filePath + JsonKey.GRADE_MANAGEMENT_JSON));
+        JSONObject jo = (JSONObject) obj;
+        List<Map<String, Object>> range = ((List<Map<String, Object>>) jo.get(JsonKey.GRADE_MANAGEMENT_KEY));
+        for (Map<String, Object> map : range) {
+            double lowerLimit = Double.parseDouble((String) map.get(JsonKey.LOWER_LIMIT));
+            double upperLimit = Double.parseDouble((String) map.get(JsonKey.UPPER_LIMIT));
+            if (marks >= lowerLimit && marks <= upperLimit) {
+                implication = (String) map.get(JsonKey.INTERPRETITION);
+            }
+        }
+        return implication;
     }
 
     private void cleanup(String path, String fileName) {

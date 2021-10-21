@@ -150,4 +150,7 @@ public interface JsonKey {
     String SENDGRID_ENDPOINT = "mail/send";
     String LOGO_IMAGE1 = "logoImage1";
     String LOGO_IMAGE2 = "logoImage2";
+    // certificate dynamic values
+    String CERTIFY= "certify";
+    String TEXT_BEFORE_COURSE = "textbeforecourse";
 }

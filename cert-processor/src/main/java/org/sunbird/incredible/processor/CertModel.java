@@ -51,6 +51,16 @@ public class CertModel {
     private String logoImage1;
     private String logoImage2;
 
+    private String certify;
+
+    public String getCertify() {
+        return certify;
+    }
+
+    public void setCertify(String certify) {
+        this.certify = certify;
+    }
+
     private static ObjectMapper mapper = new ObjectMapper();
 
     public CertModel() {

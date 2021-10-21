@@ -39,7 +39,8 @@ public class HTMLVars {
         $certificateNum,
         $implication,
         $logoImage1,
-        $logoImage2
+        $logoImage2,
+        $certify
     }
 }
 

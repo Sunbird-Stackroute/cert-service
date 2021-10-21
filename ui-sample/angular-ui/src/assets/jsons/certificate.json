@@ -188,6 +188,42 @@
                 },
                 "index": 12
              },
+             {
+                "code": "logoImage2",
+                "dataType": "text",
+                "name": "logoImage2",
+                "label": "logoImage2",
+                "description": "logoImage2",
+                "editable": true,
+                "placeholder": "logoImage2",
+                "inputType": "text",
+                "required": true,
+                "displayProperty": "Editable",
+                "visible": true,
+                "value": "",
+                "renderingHints": {
+                  "semanticColumnWidth": "four"
+                },
+                "index": 12
+             },
+             {
+                "code": "certify",
+                "dataType": "text",
+                "name": "certify",
+                "label": "certify",
+                "description": "certify",
+                "editable": true,
+                "placeholder": "certify",
+                "inputType": "text",
+                "required": true,
+                "displayProperty": "Editable",
+                "visible": true,
+                "value": "",
+                "renderingHints": {
+                  "semanticColumnWidth": "four"
+                },
+                "index": 12
+             },
             {
                 "code": "name",
                 "dataType": "text",

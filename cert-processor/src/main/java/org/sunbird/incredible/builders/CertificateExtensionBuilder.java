@@ -105,15 +105,21 @@ public class CertificateExtensionBuilder implements IBuilder<CertificateExtensio
         return this;
     }
     public CertificateExtensionBuilder setRecipientEmail(String recipientEmail) {
-        certificateExtension.setLogoImage1(recipientEmail);
+        certificateExtension.setRecipientEmail(recipientEmail);
         return this;
     }
     public CertificateExtensionBuilder setLogoImage1(String logoImage1) {
-        certificateExtension.setLogoImage2(logoImage1);
+        certificateExtension.setLogoImage1(logoImage1);
         return this;
     }
     public CertificateExtensionBuilder setLogoImage2(String logoImage2) {
-        certificateExtension.setRecipientEmail(logoImage2);
+        certificateExtension.setLogoImage2(logoImage2);
+
+        return this;
+    }
+    public CertificateExtensionBuilder setCertify(String certify) {
+        certificateExtension.setCertify(certify);
+
         return this;
     }
     @Override

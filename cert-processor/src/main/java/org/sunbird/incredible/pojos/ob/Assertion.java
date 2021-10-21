@@ -74,6 +74,16 @@ public class Assertion extends OBBase {
 
     private String logoImage2;
 
+    private String certify;
+
+    public String getCertify() {
+        return certify;
+    }
+
+    public void setCertify(String certify) {
+        this.certify = certify;
+    }
+
     public Assertion() {
     }
 
