@@ -50,6 +50,11 @@ export class CreateCertificateComponent implements OnInit {
   sendUserNotificationArray = [];
   getCertDataToSendEmail = [];
   svgUrl: string;
+  recipientTab: any;
+  signatoryTab: any;
+  storageTab: any;
+  generateTab: any;
+  notifyTab: any;
   constructor(dataService: DataService, formService: FormService, certificateService: CertificateService, resourceService: ResourceService, router: Router) {
     this.dataService = dataService;
     this.resourceService = resourceService;
