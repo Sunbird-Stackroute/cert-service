@@ -14,7 +14,7 @@
 			>
 				<label> {{ field.label }} {{ selectedTemplate }} </label>
 				<div class="field">
-					<input
+					<input style="border: 1px solid #DEDEDF; border-radius: 3px; padding: 8px 15px; margin-top: 5px;"
 						name="{{ field.code }}"
 						type="{{ field.inputType }}"
 						[(ngModel)]="formInputData[field.code]"
@@ -29,7 +29,7 @@
 				<label>
 					{{ field.label }}
 				</label>
-				<input name="{{ field.code }}" type="{{ field.inputType }}" [(ngModel)]="formInputData[field.code]" />
+				<input style="border: 1px solid #DEDEDF; border-radius: 3px; padding: 8px 15px; margin-top: 5px;" name="{{ field.code }}" type="{{ field.inputType }}" [(ngModel)]="formInputData[field.code]" />
 			</div>
 			<div *ngIf="field.inputType === 'select'" class="field" [ngClass]="{ disabled: !field.editable, required: field.required }">
 				<label>{{ field.label }}</label>

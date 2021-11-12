@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>Sunbird Design System</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon-16x16.png">
+<link rel="stylesheet" type="text/css" href="https://sunbird-ed.github.io/sunbird-style-guide/dist/assets/sb-repo/fonts.css">
+<link rel="stylesheet" type="text/css" href="https://sunbird-ed.github.io/sunbird-style-guide/dist/assets/sb-repo/variables.css">
+ <link rel="stylesheet" type="text/css" href="https://sunbird-ed.github.io/sunbird-style-guide/dist/assets/sb-repo/semantic-merged.css">
+ <!-- <link rel="stylesheet" type="text/css" href="https://sunbird-ed.github.io/sunbird-style-guide/dist/assets/sb-repo/styles.css"> -->
+ <link rel="stylesheet" type="text/css" href="https://sunbird-ed.github.io/sunbird-style-guide/dist/assets/sb-repo/common.css">
+ <link rel="stylesheet" type="text/css" href="https://sunbird-ed.github.io/sunbird-style-guide/dist/assets/sb-repo/components/buttons.css">
+ <link rel="stylesheet" type="text/css" href="https://sunbird-ed.github.io/sunbird-style-guide/dist/assets/sb-repo/components/card.css">
+  <style>
+  body {
+    margin:0px;
+    padding:32px;
+    font-family: var(--font-stack-en);
+  }
+  h1 {
+    margin:24px 0px;
+  }
+  </style>
+</head>
+<body>
+
+<h1>Buttons (using button.css)</h1>
+<button type="button" class="sb-btn sb-btn-outline-primary sb-btn-normal mr-8 ripple">Primary Button/Info</button>
+<button type="button" class="sb-btn sb-btn-outline-secondary sb-btn-normal mr-8 ripple">Secondary/Success</button>
+<button type="button" class="sb-btn sb-btn-outline-tertiary sb-btn-normal mr-8 ripple">Tertiary/Warning</button>
+<button type="button" class="sb-btn sb-btn-outline-error sb-btn-normal mr-8 ripple">Error</button>
+<button type="button" class="sb-btn sb-btn-outline-gray sb-btn-normal ripple">Default</button>
+
+<h6>&nbsp;</h6>
+<button type="button" class="sb-btn sb-btn-primary sb-btn-normal mr-8 ripple">Primary Button/Info</button>
+      <button type="button" class="sb-btn sb-btn-secondary sb-btn-normal mr-8 ripple">Secondary/Success</button>
+      <button type="button" class="sb-btn sb-btn-tertiary sb-btn-normal mr-8 ripple">Tertiary/Warning</button>
+      <button type="button" class="sb-btn sb-btn-error sb-btn-normal mr-8 ripple">Error</button>
+      <button type="button" class="sb-btn sb-btn-gray sb-btn-normal mr-8 ripple">Gray</button>
+
+
+<h1>Cards (using card.css)</h1>
+<div class="sb-card" tabindex="0">
+  <div class="sb-card-body">
+    <div class="sb-card-metas">
+      <div class="sb-card-image mr-16">
+        <img src="assets/images/book.png">
+      </div>
+      <div class="sb-card-meta course">
+        <div class="sb-card-meta-item mb-16">
+          Topic : Global positioning system and its application
+        </div>
+        <div class="sb-card-meta-item">
+          Subtopic : Limits of artificial intelligence
+        </div>
+      </div>
+    </div>
+    <h4 class="sb-card-title">
+      Data Structure and Algorithm - Assignment 1 Paperback
+    </h4>
+    <div class="sb-card-org ellipsis">
+      Academy of European Law (ERA)
+    </div>
+  </div>
+  <div class="sb-card-progressbar">
+    <sui-progress class="ui progress success">
+      <div class="bar" style="width: 100%;">
+        <div class="progress">100%</div>
+      </div>
+      <div class="label"></div>
+    </sui-progress>
+  </div>
+</div>
+
+</body>
+</html>

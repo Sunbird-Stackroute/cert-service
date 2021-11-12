@@ -26,7 +26,7 @@ export class ResourceService {
 
   languageSelected$ = this._languageSelected.asObservable();
 
-  
+
   constructor(httpClient: HttpClient) {
         this.http = httpClient
         this.getResource();
@@ -53,7 +53,6 @@ export class ResourceService {
       };
       this.http.get(option.url).subscribe(
         (data: any) => {
-          console.log(data)
           this.frmelmnts = _.merge({}, data.data.frmelmnts);
           this.getLanguageChange(range);
         },

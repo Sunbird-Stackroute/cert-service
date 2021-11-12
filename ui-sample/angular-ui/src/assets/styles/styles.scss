@@ -1,6 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 
 // @import url("../node_modules/bootstrap/dist/css/bootstrap.min.css")
+@import "./inlinefonts/fonts";
+// base structure
+@import "./mixins/mixins";
+@import "./variables";
+@import "./semantic/semantic-merged";
+@import "./base/base";
+@import "./layout/layout";
+@import "./pages/pages";
+@import "./vendors/vendors";
+@import "./components/components";
+@import "./legacy";
+@import "./global";
 
 .d-flex {
   display: flex !important;
@@ -22,7 +34,7 @@
 }
 .flex-as-flex-end {
   align-self: flex-end !important;
-}  
+}
 .flex-ai-center {
   align-items: center !important;
 }
@@ -136,7 +148,7 @@ body{
       margin:0 8px 0 0;
   }
   border-radius: 4px;
-  
+
 }
 
 .primary {

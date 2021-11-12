@@ -1,0 +1,72 @@
+// Mobile Device
+$sb-mobileDevice-width-mobile: calculateRem(360px);
+$sb-mobileDevice-height-mobile: calculateRem(202.5px);
+$sb-mobileDevice-width-tablet: calculateRem(680px);
+$sb-mobileDevice-height-tablet: calculateRem(360px);
+$sb-mobileDevice-width-desktop: calculateRem(800px);
+$sb-mobileDevice-height-desktop: calculateRem(420px);
+$sb-mobileDevice-border: calculateRem(10px) solid $black;
+$sb-mobileDevice-border-radius: calculateRem(15px);
+$sb-mobileDevice-sensors-background: $black;
+$sb-mobileDevice-sensors-padding: calculateRem(10px) calculateRem(5px)
+  calculateRem(10px) 0;
+$sb-mobileDevice-sensors-border-radius: calculateRem(25px);
+$sb-mobileDevice-sensor-background: #252525;
+$sb-mobileDevice-sensor-size: calculateRem(8px);
+$sb-mobileDevice-speaker-height: calculateRem(74px);
+$sb-mobileDevice-speaker-width: calculateRem(5px);
+$sb-mobileDevice-speaker-border-radius: calculateRem(10px);
+$sb-mobileDevice-speaker-padding: calculateRem(10px) 0 calculateRem(10px)
+  calculateRem(1px);
+$sb-mobileDevice-videoScreen-border-radius: calculateRem(5px);
+
+.sb-mobileDevice {
+  .sb-mobileDevice-screen {
+    height: $sb-mobileDevice-height-mobile;
+    width: $sb-mobileDevice-width-mobile;
+    border: $sb-mobileDevice-border;
+    border-radius: $sb-mobileDevice-border-radius;
+    margin: 0 auto;
+    position: relative;
+    .sb-mobileDevice-sensors {
+      position: absolute;
+      z-index: 9;
+      top: 50%;
+      transform: translateY(-50%);
+      margin: auto;
+      left: 0;
+      background: $sb-mobileDevice-sensors-background;
+      padding: $sb-mobileDevice-sensors-padding;
+      border-top-right-radius: $sb-mobileDevice-sensors-border-radius;
+      border-bottom-right-radius: $sb-mobileDevice-sensors-border-radius;
+      .sb-mobileDevice-sensor {
+        width: $sb-mobileDevice-sensor-size;
+        height: $sb-mobileDevice-sensor-size;
+        background: $sb-mobileDevice-sensor-background;
+        border-radius: 50%;
+      }
+      .sb-mobileDevice-speaker {
+        width: $sb-mobileDevice-speaker-width;
+        height: $sb-mobileDevice-speaker-height;
+        background: $sb-mobileDevice-sensor-background;
+        border-radius: $sb-mobileDevice-speaker-border-radius;
+        margin: $sb-mobileDevice-speaker-padding;
+      }
+    }
+    .sb-mobileDevice-videoScreen {
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      border-radius: $sb-mobileDevice-videoScreen-border-radius;
+      border: none;
+    }
+    @media only screen and (min-width: 540px) {
+      height: $sb-mobileDevice-height-tablet;
+      width: $sb-mobileDevice-width-tablet;
+    }
+    @media only screen and (min-width: 769px) {
+      height: $sb-mobileDevice-height-desktop;
+      max-width: $sb-mobileDevice-width-desktop;
+    }
+  }
+}

@@ -1,199 +1,361 @@
 <!-- @format -->
 
 <div class="ui container mb-20 mt-20 pb-6">
-	<div class="ui raised shadow container">
-		<h3 class="center tac mb-20">{{ resourceService?.frmelmnts?.msg?.generateCert }}</h3>
-		<sui-tabset>
-			<div class="ui stackable grid">
-				<div class="three wide column pt-0">
-					<div class="ui left attached vertical tabular menu">
-						<a class="item" suiTabHeader="1" [(isActive)]="templateActive">Select template</a>
-						<!-- <a class="item" suiTabHeader="2" [(isActive)]="createTab">Create template</a> -->
+  <div class="ui raised shadow container">
+    <h3 class="center tac mb-20">
+      {{ resourceService?.frmelmnts?.msg?.generateCert }}
+    </h3>
+    <sui-tabset>
+      <div class="ui stackable grid">
+        <div class="three wide column pt-0">
+          <div class="ui left attached vertical tabular menu">
+            <a class="item" suiTabHeader="1" [(isActive)]="templateActive"
+              >Select template</a
+            >
+            <!-- <a class="item" suiTabHeader="2" [(isActive)]="createTab">Create template</a> -->
+            <a
+              class="item"
+              suiTabHeader="2"
+              [(isActive)]="recipientTab"
+              [ngStyle]="
+                certSelected.length === 0
+                  ? { cursor: 'not-allowed' }
+                  : { cursor: 'pointer' }
+              "
+              [isDisabled]="certSelected.length === 0 ? true : false"
+              >Recipient & Issuer details</a
+            >
+            <a
+              class="item"
+              suiTabHeader="3"
+              [(isActive)]="signatoryTab"
+              [ngStyle]="
+                certSelected.length === 0
+                  ? { cursor: 'not-allowed' }
+                  : { cursor: 'pointer' }
+              "
+              [isDisabled]="certSelected.length === 0 ? true : false"
+              >Signatory details</a
+            >
+            <a
+              class="item"
+              suiTabHeader="4"
+              [(isActive)]="storageTab"
+              [ngStyle]="
+                certSelected.length === 0
+                  ? { cursor: 'not-allowed' }
+                  : { cursor: 'pointer' }
+              "
+              [isDisabled]="certSelected.length === 0 ? true : false"
+              >Storage Info</a
+            >
+            <a
+              class="item"
+              suiTabHeader="5"
+              [(isActive)]="generateTab"
+              [ngStyle]="
+                certSelected.length === 0
+                  ? { cursor: 'not-allowed' }
+                  : { cursor: 'pointer' }
+              "
+              [isDisabled]="certSelected.length === 0 ? true : false"
+              >Generate & Notify</a
+            >
+            <a
+              class="item"
+              suiTabHeader="6"
+              [(isActive)]="notifyTab"
+              (click)="showAllCert()"
+              >Notification</a
+            >
+          </div>
+        </div>
 
-						<a class="item" suiTabHeader="2" [(isActive)]="recipientTab"
-							[ngStyle]="certSelected.length === 0 ? { cursor: 'not-allowed' } : { cursor: 'pointer' }"
-							[isDisabled]="certSelected.length === 0 ? true : false">Recipient & Issuer details</a>
-						<a class="item" suiTabHeader="3" [(isActive)]="signatoryTab"
-							[ngStyle]="certSelected.length === 0 ? { cursor: 'not-allowed' } : { cursor: 'pointer' }"
-							[isDisabled]="certSelected.length === 0 ? true : false">Signatory details</a>
-						<a class="item" suiTabHeader="4" [(isActive)]="storageTab"
-							[ngStyle]="certSelected.length === 0 ? { cursor: 'not-allowed' } : { cursor: 'pointer' }"
-							[isDisabled]="certSelected.length === 0 ? true : false">Storage Info</a>
-						<a class="item" suiTabHeader="5" [(isActive)]="generateTab"
-							[ngStyle]="certSelected.length === 0 ? { cursor: 'not-allowed' } : { cursor: 'pointer' }"
-							[isDisabled]="certSelected.length === 0 ? true : false">Generate & Notify</a>
+        <div
+          class="nine wide column pt-0"
+          style="background: #fff; color: black; border: 1px solid #ddd"
+        >
+          <div
+            class="ui right attached segment"
+            suiTabContent="1"
+            style="background: #fff; color: black; border: transparent"
+          >
+            <p class="tac">Select Template</p>
+            <div class="svg__overflow svg__display">
+              <span
+                class="svg__width"
+                (click)="selectedSvgCert($event)"
+                [id]="certificate"
+                *ngFor="let certificate of showAllCertsValues"
+                [title]="
+                  certificate.endsWith('niitMeritHtml.svg')
+                    ? 'NIIT MERIT ZIP'
+                    : certificate.endsWith('niitParticipationHtml.svg')
+                    ? 'NIIT PARTICIPATION ZIP'
+                    : certificate.endsWith('niitParticipation.svg')
+                    ? 'NIIT PARTICIPATION SVG'
+                    : certificate.endsWith('meritCertificate.svg')
+                    ? 'NIIT MERIT SVG'
+                    : ''
+                "
+              >
+                <svg-icon
+                  class="svg__icon"
+                  [src]="certificate"
+                  [stretch]="true"
+                  [svgStyle]="
+                    certificate.endsWith('Html.svg')
+                      ? {
+                          'width.px': 100,
+                          'height.px': 100,
+                          'margin.px': '3 -2 -4 -2'
+                        }
+                      : { 'height.px': 200, 'margin.px': '-2 -2 -7 -2' }
+                  "
+                >
+                </svg-icon>
+                <br />
+                <br />
+                {{
+                  certificate.endsWith("niitMeritHtml.svg")
+                    ? "NIIT MERIT ZIP"
+                    : certificate.endsWith("niitParticipationHtml.svg")
+                    ? "NIIT PARTICIPATION ZIP"
+                    : certificate.endsWith("niitParticipation.svg")
+                    ? "NIIT PARTICIPATION SVG"
+                    : certificate.endsWith("meritCertificate.svg")
+                    ? "NIIT MERIT SVG"
+                    : ""
+                }}
+              </span>
+            </div>
+            <!-- .svg Close -->
+            <div class="mt-20 d-flex flex-jc-flex-end">
+              <button
+                class="ui blue button"
+                (click)="recipientTab = true"
+                [ngStyle]="
+                  certSelected.length === 0
+                    ? { cursor: 'not-allowed' }
+                    : { cursor: 'pointer' }
+                "
+                [disabled]="certSelected.length === 0 ? true : false"
+              >
+                Next
+              </button>
+            </div>
+          </div>
 
-						<a class="item" suiTabHeader="6" [(isActive)]="notifyTab"
-							(click)="showAllCert()">Notification</a>
-					</div>
-				</div>
+          <div
+            class="ui right attached segment"
+            suiTabContent="2"
+            style="background: #fff; color: black; border: transparent"
+          >
+            <p class="tac">Enter Recipient Details</p>
+            <app-default-template
+              #formData
+              [formFieldProperties]="formFieldProperties"
+            >
+            </app-default-template>
+            <div class="mt-20 d-flex flex-jc-flex-end">
+              <button class="ui blue button" (click)="signatoryTab = true">
+                Next
+              </button>
+            </div>
+          </div>
 
-				<div class="nine wide column pt-0">
-					<div class="ui right attached segment" suiTabContent="1">
-						<p class="tac">Select Template</p>
-						<div class="svg__overflow svg__display">
-							<span class="svg__width" (click)="selectedSvgCert($event)" [id]="certificate"
-								*ngFor="let certificate of showAllCertsValues" [title]="
-									certificate.endsWith('niitMeritHtml.svg')
-										? 'NIIT MERIT ZIP'
-										: certificate.endsWith('niitParticipationHtml.svg')
-										? 'NIIT PARTICIPATION ZIP'
-										: certificate.endsWith('niitParticipation.svg')
-										? 'NIIT PARTICIPATION SVG'
-										: certificate.endsWith('meritCertificate.svg')
-										? 'NIIT MERIT SVG'
-										: ''
-								">
-								<svg-icon class="svg__icon" [src]="certificate" [stretch]="true" [svgStyle]="
-										certificate.endsWith('Html.svg')
-											? { 'width.px': 100, 'height.px': 100, 'margin.px': '3 -2 -4 -2' }
-											: { 'height.px': 200, 'margin.px': '-2 -2 -7 -2' }
-									">
-								</svg-icon>
-								<br />
-								<br />
-								{{
-								certificate.endsWith("niitMeritHtml.svg")
-								? "NIIT MERIT ZIP"
-								: certificate.endsWith("niitParticipationHtml.svg")
-								? "NIIT PARTICIPATION ZIP"
-								: certificate.endsWith("niitParticipation.svg")
-								? "NIIT PARTICIPATION SVG"
-								: certificate.endsWith("meritCertificate.svg")
-								? "NIIT MERIT SVG"
-								: ""
-								}}
-							</span>
-						</div>
-						<!-- .svg Close -->
-						<div class="mt-20 d-flex flex-jc-flex-end">
-							<button class="ui blue button" (click)="recipientTab = true"
-								[ngStyle]="certSelected.length === 0 ? { cursor: 'not-allowed' } : { cursor: 'pointer' }"
-								[disabled]="certSelected.length === 0 ? true : false">
-								Next
-							</button>
-						</div>
-					</div>
+          <div
+            class="ui right attached segment"
+            suiTabContent="3"
+            style="background: #fff; color: black; border: transparent"
+          >
+            <p class="tac">Enter Signatory Details</p>
+            <div *ngIf="signatoryCount > 0">
+              <div *ngFor="let i of signatory">
+                <app-default-template
+                  #signatoryForm
+                  [formFieldProperties]="signatoryFieldProperties"
+                >
+                </app-default-template>
+              </div>
+              <div id="icons">
+                <h4 class="mt-20">
+                  <i
+                    class="fas fa-minus-circle"
+                    (click)="removeSignatory()"
+                  ></i>
+                </h4>
+                <h4 class="mt-20">
+                  <i class="fas fa-plus-circle" (click)="addSignatory()"></i>
+                </h4>
+              </div>
+            </div>
+            <div class="mt-20 d-flex flex-jc-flex-end">
+              <button class="ui blue button" (click)="storageTab = true">
+                Next
+              </button>
+            </div>
+          </div>
 
-					<div class="ui right attached segment" suiTabContent="2">
-						<p class="tac">Enter Recipient Details</p>
-						<app-default-template #formData [formFieldProperties]="formFieldProperties">
-						</app-default-template>
-						<div class="mt-20 d-flex flex-jc-flex-end">
-							<button class="ui blue button" (click)="signatoryTab = true">Next</button>
-						</div>
-					</div>
+          <div
+            class="ui right attached segment"
+            suiTabContent="4"
+            style="background: #fff; color: black; border: transparent"
+          >
+            <div class="mb-20">
+              <p>Do you want to enter Storage Details?</p>
+              <sui-checkbox [(ngModel)]="storageInfo">Yes</sui-checkbox>
+            </div>
+            <div *ngIf="storageInfo">
+              <app-default-template
+                #storageForm
+                [formFieldProperties]="storeFieldProperties"
+              >
+              </app-default-template>
+            </div>
+            <div class="mt-20 d-flex flex-jc-flex-end">
+              <button class="ui blue button" (click)="generateTab = true">
+                Next
+              </button>
+            </div>
+          </div>
 
-					<div class="ui right attached segment" suiTabContent="3">
-						<p class="tac">Enter Signatory Details</p>
-						<div *ngIf="signatoryCount > 0">
-							<div *ngFor="let i of signatory">
-								<app-default-template #signatoryForm [formFieldProperties]="signatoryFieldProperties">
-								</app-default-template>
-							</div>
-							<div id="icons">
-								<h4 class="mt-20"><i class="fas fa-minus-circle" (click)="removeSignatory()"></i></h4>
-								<h4 class="mt-20"><i class="fas fa-plus-circle" (click)="addSignatory()"></i></h4>
-							</div>
-						</div>
-						<div class="mt-20 d-flex flex-jc-flex-end">
-							<button class="ui blue button" (click)="storageTab = true">Next</button>
-						</div>
-					</div>
-
-					<div class="ui right attached segment" suiTabContent="4">
-						<div class="mb-20">
-							<p>Do you want to enter Storage Details?</p>
-							<sui-checkbox [(ngModel)]="storageInfo">yes</sui-checkbox>
-						</div>
-						<div *ngIf="storageInfo">
-							<app-default-template #storageForm [formFieldProperties]="storeFieldProperties">
-							</app-default-template>
-						</div>
-						<div class="mt-20 d-flex flex-jc-flex-end">
-							<button class="ui blue button" (click)="generateTab = true">Next</button>
-						</div>
-					</div>
-
-					<div class="ui right attached segment" suiTabContent="5">
-						<div class="buttons flex-jc-center">
-							<!-- <button class="sb-btn sb-btn-normal primary" (click)="previewCertificate()">
+          <div
+            class="ui right attached segment"
+            suiTabContent="5"
+            style="background: #fff; color: black; border: transparent"
+          >
+            <div class="buttons flex-jc-center">
+              <!-- <button class="sb-btn sb-btn-normal primary" (click)="previewCertificate()">
 								{{ resourceService?.frmelmnts?.btn?.preview }}
 							</button> -->
-							<button class="mr-20 sb-btn sb-btn-normal primary" (click)="createCertificate()">
-								{{ resourceService?.frmelmnts?.btn?.generate }} & Notify
-							</button>
-						</div>
-					</div>
+              <button
+                class="mr-20 sb-btn sb-btn-normal primary"
+                (click)="createCertificate()"
+                style="padding: 0 8px"
+              >
+                {{ resourceService?.frmelmnts?.btn?.generate }} & Notify
+              </button>
+            </div>
+          </div>
 
-					<div class="ui right attached segment" suiTabContent="6">
-						<div>
-							<p class="tac">Notification</p>
-							<div class="mt-20 d-flex flex-jc-flex-end">
-								<input id="searchBy" size="35" matInput type="search"
-									placeholder="Search by Issuer, Certno. or Regno." />
+          <div
+            class="ui right attached segment"
+            suiTabContent="6"
+            style="background: #fff; color: black; border: transparent"
+          >
+            <div>
+              <p class="tac">Notification</p>
+              <div class="mt-20 d-flex flex-jc-flex-end">
+                <input
+                  style="
+                    border: 1px solid #dededf;
+                    border-radius: 3px;
+                    padding: 5px 15px 5px 15px;
+                  "
+                  id="searchBy"
+                  size="35"
+                  matInput
+                  type="search"
+                  placeholder="Search by Issuer, Certno. or Regno."
+                />
 
-								<button class="ui blue button" (click)="searchByFilter()">Search</button>
+                <button class="ui blue button" (click)="searchByFilter()">
+                  Search
+                </button>
+              </div>
+            </div>
+            <div class="alligDatepickerButton">
+              <div class="allignDatePicker">
+                <mat-label>From </mat-label>
+                <input
+                  style="
+                    border: 1px solid #dededf;
+                    border-radius: 3px;
+                    padding: 5px;
+                  "
+                  id="startDate"
+                  matInput
+                  [matDatepicker]="Frompicker"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="Frompicker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #Frompicker></mat-datepicker>
+              </div>
+              <br />
+              <div class="allignDatePicker">
+                <mat-label>To </mat-label>
+                <input
+                  style="
+                    border: 1px solid #dededf;
+                    border-radius: 3px;
+                    padding: 5px;
+                  "
+                  id="endDate"
+                  matInput
+                  [matDatepicker]="Topicker"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="Topicker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #Topicker></mat-datepicker>
+              </div>
+              <div class="mt-20 d-flex flex-jc-flex-end mb-20">
+                <button class="ui danger button" (click)="clearApplyFilter()">
+                  Reset
+                </button>
+                <button class="ui blue button" (click)="applyFilter()">
+                  Search
+                </button>
+              </div>
+            </div>
 
-							</div>
-
-
-						</div>
-						<div class="alligDatepickerButton">
-							<div class="allignDatePicker">
-								<mat-label>From </mat-label>
-								<input id="startDate" matInput [matDatepicker]="Frompicker" />
-								<mat-datepicker-toggle matSuffix [for]="Frompicker"></mat-datepicker-toggle>
-								<mat-datepicker #Frompicker></mat-datepicker>
-							</div>
-							<br />
-							<div class="allignDatePicker">
-								<mat-label>To </mat-label>
-								<input id="endDate" matInput [matDatepicker]="Topicker" />
-								<mat-datepicker-toggle matSuffix [for]="Topicker"></mat-datepicker-toggle>
-								<mat-datepicker #Topicker></mat-datepicker>
-							</div>
-							<div class="mt-20 d-flex flex-jc-flex-end mb-20">
-								<button class="ui danger button" (click)="clearApplyFilter()">Reset</button>
-								<button class="ui blue button" (click)="applyFilter()">Search</button>
-							</div>
-						</div>
-
-						<table id="certTable">
-							<thead>
-								<tr>
-									<th>Select</th>
-									<th>Date</th>
-									<th>Registration No.</th>
-									<th>Certificate No.</th>
-									<th>Issuer Name</th>
-									<th>Recipient Name</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr *ngFor="let showCert of showAllCertToSendEmail">
-									<td>
-										<input type="checkbox" [attr.data-email]="showCert.recipientEmail"
-											[attr.data-url]="showCert.pdfUrl" [attr.data-name]="showCert.recipientName"
-											[attr.data-course]="showCert.courseName"
-											[attr.data-svgurl]="showCert.svgUrl" />
-									</td>
-									<td>{{ showCert.date.split("T")[0] }}</td>
-									<td>{{ showCert.regNo }}</td>
-									<td>{{ showCert.certNo }}</td>
-									<td>{{ showCert.issuerName }}</td>
-									<td>{{ showCert.recipientName }}</td>
-								</tr>
-							</tbody>
-						</table>
-						<br />
-						<div class="mt-20 d-flex flex-jc-flex-end">
-							<button class="ui blue button" (click)="sendMultipleNotifications()">Send
-								Notification</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</sui-tabset>
-	</div>
+            <table id="certTable">
+              <thead>
+                <tr>
+                  <th>Select</th>
+                  <th>Date</th>
+                  <th>Registration No.</th>
+                  <th>Certificate No.</th>
+                  <th>Issuer Name</th>
+                  <th>Recipient Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let showCert of showAllCertToSendEmail">
+                  <td>
+                    <input
+                      type="checkbox"
+                      [attr.data-email]="showCert.recipientEmail"
+                      [attr.data-url]="showCert.pdfUrl"
+                      [attr.data-name]="showCert.recipientName"
+                      [attr.data-course]="showCert.courseName"
+                      [attr.data-svgurl]="showCert.svgUrl"
+                    />
+                  </td>
+                  <td>{{ showCert.date.split("T")[0] }}</td>
+                  <td>{{ showCert.regNo }}</td>
+                  <td>{{ showCert.certNo }}</td>
+                  <td>{{ showCert.issuerName }}</td>
+                  <td>{{ showCert.recipientName }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <br />
+            <div class="mt-20 d-flex flex-jc-flex-end">
+              <button
+                class="ui blue button"
+                (click)="sendMultipleNotifications()"
+              >
+                Send Notification
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </sui-tabset>
+  </div>
 </div>

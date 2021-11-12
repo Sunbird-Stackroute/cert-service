@@ -1,0 +1,249 @@
+// label
+$sb-label-status-width: calculateRem(130px);
+$sb-label-status-height: auto;
+$sb-label-status-padding: calculateRem(5px);
+$sb-label-status-font-size: calculateRem(14px);
+$sb-label-status-before-border: calculateRem(1px) solid teal;
+$sb-label-status-before-top: -11%;
+$sb-label-status-before-bottom: -11%;
+$sb-label-status-before-left: -2%;
+$sb-label-status-before-right: -3%;
+$sb-label-status-before-border-bottom-left-radius: calculateRem(10px);
+$sb-label-status-before-border-bottom-right-radius: calculateRem(10px);
+$sb-label-status-success-border-color: $secondary-0;
+$sb-label-status-success-background-color: $secondary-0;
+$sb-label-status-error-background-color: $tertiary-0;
+$sb-label-status-error-border-color: $tertiary-0;
+$sb-label-status-error-color: $tertiary-color;
+$sb-label-status-success-color: $secondary-color;
+$sb-label-status-indicator-height: calculateRem(8px);
+$sb-label-status-indicator-width: calculateRem(8px);
+$sb-label-status-indicator-border-radius: 50%;
+$sb-label-status-indicator-margin-right: calculateRem(4px);
+$sb-label-status-indicator-success-background: $secondary-color;
+$sb-label-status-indicator-error-background: $tertiary-color;
+
+// base label styles
+.sb-label {
+  display: inline-block;
+  border: calculateRem(1px) solid;
+  color: $white-color;
+  line-height: inherit;
+  @include border-radius(calculateRem(3px));
+  text: {
+    transform: capitalize;
+    decoration: none;
+  }
+}
+
+.sb-label-table {
+  padding: ($base-block-space / 2) ($base-block-space);
+  font-size: $font-size-sm;
+  min-width: $base-block-space * 6;
+  text-align: center;
+  .sb-live {
+    height: $base-block-space;
+    width: $base-block-space;
+    background: $secondary-200;
+    display: inline-block;
+    border-radius: 50%;
+    margin-right: $base-block-space/2;
+  }
+}
+
+// sb label sizes
+$sblabelsSize: "xs" (calculateRem(4px) calculateRem(4px)) calculateRem(24px)
+    calculateRem(12px),
+  "sm" (calculateRem(8px) calculateRem(16px)) calculateRem(40px)
+    calculateRem(14px),
+  "normal" (calculateRem(8px) calculateRem(16px)) calculateRem(32px)
+    calculateRem(12px),
+  "md" (calculateRem(8px) calculateRem(16px)) calculateRem(48px)
+    calculateRem(16px),
+  "lg" (calculateRem(24px) calculateRem(24px)) calculateRem(56px)
+    calculateRem(20px);
+
+@each $i in $sblabelsSize {
+  .sb-label-#{nth($i, 1)} {
+    padding: nth($i, 2);
+    height: nth($i, 3);
+    font-size: nth($i, 4);
+  }
+}
+
+$sblabelsColor: "gray-hs" var(--gray-hs), "gray" var(--gray),
+  "gray-0" var(--gray-0), "gray-100" var(--gray-100), "gray-200" var(--gray-200),
+  "gray-300" var(--gray-300), "gray-400" var(--gray-400),
+  "gray-800" var(--gray-800), "primary" var(--blue),
+  "primary-0" var(--primary-0), "primary-100" var(--primary-100),
+  "primary-200" var(--primary-200), "primary-250" var(--primary-250),
+  "primary-300" var(--primary-300), "primary-400" var(--primary-400),
+  "primary-600" var(--primary-600), "primary-800" var(--primary-800),
+  "info" var(--blue), "secondary" var(--green), "secondary-0" var(--secondary-0),
+  "secondary-100" var(--secondary-100), "secondary-200" var(--secondary-200),
+  "secondary-400" var(--secondary-400), "success" var(--green),
+  "success-0" var(--secondary-0), "success-100" var(--secondary-100),
+  "success-200" var(--secondary-200), "success-400" var(--secondary-400),
+  "tertiary" var(--orange), "tertiary-0" var(--tertiary-0),
+  "tertiary-100" var(--tertiary-100), "tertiary-400" var(--tertiary-400),
+  "warning" var(--orange), "warning-0" var(--tertiary-0),
+  "warning-100" var(--tertiary-100), "warning-400" var(--tertiary-400),
+  "red" var(--red), "red-0" var(--red-0), "red-100" var(--red-100),
+  "red-400" var(--red-400), "error" var(--red), "error-0" var(--red-0),
+  "error-100" var(--red-100), "error-400" var(--red-400), "white" var(--white),
+  "black" var(--black); // colors
+
+@each $i in $sblabelsColor {
+  //sb label brands colors
+  .sb-label-#{nth($i, 1)} {
+    @include label-theme(nth($i, 2));
+  }
+  //sb label outline brand colors
+  .sb-label-outline-#{nth($i, 1)} {
+    @include label-theme-bgwhite(nth($i, 2));
+  }
+  // sb label text brand colors
+  .sb-label-text-#{nth($i, 1)} {
+    color: nth($i, 2);
+  }
+}
+
+[class*="sb-label-gray-"] {
+  color: var(--gray-400);
+}
+[class*="sb-label-primary-"],
+[class*=".sb-label-info-"] {
+  color: var(--primary-color);
+}
+[class*="sb-label-secondary-"],
+[class*="sb-label-success-"] {
+  color: var(--secondary-200);
+}
+[class*="sb-label-tertiary-"],
+[class*="sb-label-warning-"] {
+  color: var(--tertiary-color);
+}
+[class*="sb-label-red-"],
+[class*="sb-label-error-"] {
+  color: var(--red-400);
+}
+
+//qr code result label
+.sb-result-label,
+.sb-pageSection-count {
+  background: #D4D3D3;
+  color: var(--gray-800);
+  text-align: center;
+  padding: calculateRem(0px) calculateRem(8px);
+  border-radius: calculateRem(4px);
+  height: calculateRem(24px);
+  line-height: calculateRem(24px);
+  font-size: calculateRem(16px);
+  font-weight: normal;
+}
+.sb-section-title {
+  font-size: $font-size-md;
+  font-weight: 600;
+  line-height: ($base-block-space * 3);
+  color: $gray-800;
+  margin-bottom: 0px;
+}
+
+.sb-filter-label {
+  display: inline-block;
+  > div.d-inline-flex {
+    align-items: center;
+    margin-bottom: $base-block-space;
+  }
+  .sb-label-name {
+    font-size: $font-size-sm;
+    padding-right: $base-block-space/2;
+  }
+  .sb-label-value {
+    background-color: $primary-200;
+    padding: ($base-block-space/2) $base-block-space;
+    color: $white;
+    display: inline-block;
+    font-size: $font-size-sm;
+    text-transform: capitalize;
+    margin-right: $base-block-space;
+    cursor: pointer;
+    border-radius: $base-block-space/4;
+  }
+}
+
+//network status label offline
+.sb-label-status {
+  width: $sb-label-status-width;
+  position: relative;
+  padding: $sb-label-status-padding;
+  height: $sb-label-status-height;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $sb-label-status-font-size;
+  z-index: 2;
+  &:before {
+    content: "";
+    position: absolute;
+    border: $sb-label-status-before-border;
+    top: $sb-label-status-before-top;
+    bottom: $sb-label-status-before-bottom;
+    left: $sb-label-status-before-left;
+    right: $sb-label-status-before-right;
+    z-index: -1;
+    -webkit-transform: perspective(60px) rotateX(-40deg);
+    transform: perspective(200px) rotateX(-40deg);
+    border-bottom-left-radius: $sb-label-status-before-border-bottom-left-radius;
+    border-bottom-right-radius: $sb-label-status-before-border-bottom-right-radius;
+  }
+  &.sb-label-status-success:before {
+    border-color: $sb-label-status-success-border-color;
+    background-color: $sb-label-status-success-background-color;
+  }
+  &.sb-label-status-error:before {
+    border-color: $sb-label-status-error-border-color;
+    background-color: $sb-label-status-error-background-color;
+  }
+  .sb-label-status-indicator {
+    height: $sb-label-status-indicator-height;
+    width: $sb-label-status-indicator-width;
+    display: inline-block;
+    border-radius: $sb-label-status-indicator-border-radius;
+    margin-right: $sb-label-status-indicator-margin-right;
+    &.sb-label-status-indicator-error {
+      background: $sb-label-status-indicator-error-background;
+    }
+    &.sb-label-status-indicator-success {
+      background: $sb-label-status-indicator-success-background;
+    }
+  }
+}
+.sb-label-status-error {
+  color: $sb-label-status-error-color;
+}
+.sb-label-status-success {
+  color: $sb-label-status-success-color;
+}
+
+// cbse
+.sb-status-label {
+  width: calculateRem(8px);
+  height: calculateRem(8px);
+  display: inline-block;
+  &.sb-shape-circle {
+    border-radius: 100%;
+  }
+  &.sb-bg-warning {
+    background: $tertiary-100;
+  }
+  &.sb-bg-success {
+    background: $secondary-color;
+  }
+  &.sb-bg-error {
+    background: $red;
+  }
+  &.sb-bg-primary {
+    background: $primary-color;
+  }
+}

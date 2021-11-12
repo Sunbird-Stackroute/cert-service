@@ -1,0 +1,50 @@
+/** @format */
+body {
+  background: #fff;
+}
+
+.responsive-ct {
+	position: relative;
+	padding-bottom: 56.25%;
+	width: 100%;
+	height: 100%;
+	iframe {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 50%;
+		left: 0px;
+		right: 0px;
+		bottom: 0px;
+		margin: 0 auto;
+		transform: translateY(-50%);
+	}
+}
+
+::ng-deep {
+	.sb-modal .ui.modal.large .sb-modal-content {
+		height: 100%;
+		background: #000;
+	}
+}
+
+.social--animate__zoom {
+	transition: zoom 0.5s ease-in-out;
+}
+
+.social--animate__zoom:hover {
+	zoom: 1.1;
+	transition: zoom 0.5s ease-in-out both;
+}
+
+@keyframes zoom {
+	0% {
+		zoom: 1;
+	}
+	50% {
+		zoom: 1.1;
+	}
+	100% {
+		zoom: 1;
+	}
+}

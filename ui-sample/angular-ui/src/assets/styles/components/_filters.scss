@@ -1,0 +1,296 @@
+// Filters
+$sb-prominent-filter-background-color: $white-color;
+$sb-prominent-filter-padding: calculateRem(16px) calculateRem(16px);
+$sb-prominent-filter-header-font-weight: bold;
+$sb-prominent-filter-header-margin: ($base-block-space) 0 calculateRem(16px) 0;
+$sb-prominent-filter-header-color: $primary-color;
+$sb-prominent-filter-field-width-below-sm: 50%;
+$sb-prominent-filter-field-width-above-sm: 33.3333%;
+$sb-prominent-filter-field-width-above-md: 25%;
+$sb-prominent-filter-field-width-above-lg: 20%;
+$sb-prominent-filter-field-bottom-spacing: calculateRem(16px);
+$sb-prominent-filter-field-side-spacing: calculateRem(16px);
+$sb-prominent-filter-field-label-font-size: calculateRem(14px);
+$sb-prominent-filter-field-label-font-weight: normal;
+$sb-prominent-filter-field-label-color: $gray-800;
+$sb-prominent-filter-field-label-margin: 0 0 $base-block-space 0;
+$sb-prominent-filter-field-font-size: calculateRem(12px);
+$sb-prominent-filter-field-color: #4a4a4a;
+$sb-prominent-filter-field-border: 1px solid #999999;
+$sb-prominent-filter-field-border-radius: calculateRem(3px);
+$sb-prominent-filter-field-height: calculateRem(32px);
+$sb-prominent-filter-field-width: 100%;
+$sb-prominent-filter-field-input-padding: calculateRem(8px);
+$sb-prominent-filter-dropdown-font-size: calculateRem(12px);
+$sb-prominent-filter-dropdown-header-font-weight: 500;
+$sb-prominent-filter-dropdown-item-active-color: $primary-color;
+$sb-prominent-filter-dropdown-item-active-font-weight: 700;
+
+.sb-explore-filter {
+  &.Open {
+    min-height: 180px;
+    transition: height 500ms;
+  }
+
+  &.Close {
+    overflow: hidden;
+    transition: height 500ms;
+    height: 0px;
+  }
+}
+
+.sb-prominent-filter {
+  background: $sb-prominent-filter-background-color;
+  // padding: $sb-prominent-filter-padding;
+  border: 0px solid transparent;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 9;
+  top: 100%;
+  border: 1px solid #f2f2f2;
+  border-radius: 4px;
+  box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06), 0 22.3px 17.9px rgba(0, 0, 0, 0.072);
+
+
+  .sb-prominent-filter-header {
+    font-weight: $sb-prominent-filter-header-font-weight;
+    margin: $sb-prominent-filter-header-margin;
+  }
+
+  .sb-data-driven-filter-header {
+    font-weight: $sb-prominent-filter-header-font-weight;
+    color: $sb-prominent-filter-header-color;
+  }
+
+  .sb-prominent-filter-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    .sb-prominent-filter-field {
+      margin: 0 0 $sb-prominent-filter-field-bottom-spacing 0;
+      padding: 0 $sb-prominent-filter-field-side-spacing 0 0;
+      width: $sb-prominent-filter-field-width-above-lg;
+
+      &:last-child {
+        margin-top: auto;
+        margin-left: auto;
+        text-align: right;
+        padding-right: 0;
+      }
+
+      label {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        margin: $sb-prominent-filter-field-label-margin;
+        font-weight: $sb-prominent-filter-field-label-font-weight;
+        font-size: $sb-prominent-filter-field-label-font-size;
+        color: $sb-prominent-filter-field-label-color;
+      }
+
+      .topic-picker-selector {
+        font-size: $sb-prominent-filter-field-font-size;
+        color: $sb-prominent-filter-field-color;
+        border: $sb-prominent-filter-field-border;
+        border-radius: $sb-prominent-filter-field-border-radius;
+        width: $sb-prominent-filter-field-width;
+        height: $sb-prominent-filter-field-height;
+        padding: $sb-prominent-filter-field-input-padding;
+      }
+
+      .ui.selection.dropdown {
+        min-width: $sb-prominent-filter-field-width;
+        width: $sb-prominent-filter-field-width;
+        height: $sb-prominent-filter-field-height;
+        font-size: $sb-prominent-filter-field-font-size;
+        //border: $sb-prominent-filter-field-border;
+        border-radius: $sb-prominent-filter-field-border-radius;
+        padding: 0;
+
+        .item {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          width: $sb-prominent-filter-field-width;
+          padding: $sb-prominent-filter-dropdown-font-size;
+          color: $sb-prominent-filter-field-color;
+          font-size: $sb-prominent-filter-field-font-size;
+
+          &.header {
+            margin: 0;
+            font-weight: $sb-prominent-filter-dropdown-header-font-weight;
+          }
+
+          &.active {
+            color: $sb-prominent-filter-dropdown-item-active-color;
+            font-weight: $sb-prominent-filter-dropdown-item-active-font-weight;
+          }
+
+          &:hover {
+            background: $primary-250;
+            color: $blue;
+          }
+
+          i.icon.square.outline {
+            height: ($base-block-space * 2);
+            width: ($base-block-space * 2);
+            border: 1px solid $primary-300;
+            border-radius: 5px;
+
+            &::before {
+              content: "\f14a";
+              visibility: hidden;
+            }
+
+            &.check {
+              background: $blue;
+              border: none;
+              color: $sb-prominent-filter-background-color;
+
+              &::before {
+                content: "\2713";
+                line-height: ($base-block-space * 2);
+                visibility: visible;
+              }
+            }
+          }
+        }
+
+        .text {
+          text-transform: lowercase;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          color: $sb-prominent-filter-field-color;
+          margin: 0;
+          padding: $sb-prominent-filter-field-input-padding;
+          font-size: $sb-prominent-filter-field-font-size;
+
+          &::first-letter {
+            text-transform: uppercase;
+          }
+        }
+      }
+    }
+  }
+}
+
+// responsive
+
+@include respond-above(lg) {
+  .sb-prominent-filter .sb-prominent-filter-container .sb-prominent-filter-field {
+    width: $sb-prominent-filter-field-width-above-lg;
+
+    &:nth-child(5n + 5) {
+      padding-right: 0;
+    }
+  }
+
+  *[dir="rtl"] {
+    .sb-prominent-filter .sb-prominent-filter-container .sb-prominent-filter-field {
+      &:nth-child(5n + 5) {
+        padding-right: $sb-prominent-filter-field-side-spacing;
+      }
+
+      &:nth-child(5n + 1) {
+        padding-right: 0;
+      }
+
+      &:last-child {
+        padding-right: $sb-prominent-filter-field-side-spacing;
+        margin-right: auto;
+        margin-left: 0;
+        text-align: left;
+      }
+    }
+  }
+}
+
+@include respond-between(md, lg) {
+  .sb-prominent-filter .sb-prominent-filter-container .sb-prominent-filter-field {
+    width: $sb-prominent-filter-field-width-above-md;
+
+    &:nth-child(4n + 4) {
+      padding-right: 0;
+    }
+  }
+
+  *[dir="rtl"] {
+    .sb-prominent-filter .sb-prominent-filter-container .sb-prominent-filter-field {
+      &:nth-child(4n + 4) {
+        padding-right: $sb-prominent-filter-field-side-spacing;
+      }
+
+      &:nth-child(4n + 1) {
+        padding-right: 0;
+      }
+
+      &:last-child {
+        padding-right: $sb-prominent-filter-field-side-spacing;
+        margin-right: auto;
+        margin-left: 0;
+        text-align: left;
+      }
+    }
+  }
+}
+
+@include respond-between(sm, md) {
+  .sb-prominent-filter .sb-prominent-filter-container .sb-prominent-filter-field {
+    width: $sb-prominent-filter-field-width-above-sm;
+
+    &:nth-child(3n + 3) {
+      padding-right: 0;
+    }
+  }
+
+  *[dir="rtl"] {
+    .sb-prominent-filter .sb-prominent-filter-container .sb-prominent-filter-field {
+      &:nth-child(3n + 3) {
+        padding-right: $sb-prominent-filter-field-side-spacing;
+      }
+
+      &:nth-child(3n + 1) {
+        padding-right: 0;
+      }
+
+      &:last-child {
+        padding-right: $sb-prominent-filter-field-side-spacing;
+        margin-right: auto;
+        margin-left: 0;
+        text-align: left;
+      }
+    }
+  }
+}
+
+@include respond-below(sm) {
+  .sb-prominent-filter .sb-prominent-filter-container .sb-prominent-filter-field {
+    width: $sb-prominent-filter-field-width-below-sm;
+
+    &:nth-child(2n + 2) {
+      padding-right: 0;
+    }
+  }
+
+  *[dir="rtl"] {
+    .sb-prominent-filter .sb-prominent-filter-container .sb-prominent-filter-field {
+      &:nth-child(2n + 2) {
+        padding-right: $sb-prominent-filter-field-side-spacing;
+      }
+
+      &:nth-child(2n + 1) {
+        padding-right: 0;
+      }
+
+      &:last-child {
+        padding-right: $sb-prominent-filter-field-side-spacing;
+        margin-right: auto;
+        margin-left: 0;
+        text-align: left;
+      }
+    }
+  }
+}

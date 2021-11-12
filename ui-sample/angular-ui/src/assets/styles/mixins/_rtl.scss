@@ -1,0 +1,33 @@
+$isRTL: false !default;
+@mixin rtl {
+  @if $isRTL {
+    @if & {
+      & {
+        @content;
+      }
+    }
+    @else {
+      @content;
+    }
+  }
+}
+
+
+@mixin bidi-style($prop, $value, $inverse-prop, $default-value) {
+  #{$prop}: $value;
+  html[dir=rtl] & {
+    #{$inverse-prop}: $value;
+    #{$prop}: $default-value;
+  }
+}
+// @include bidi-style(padding-right, 32px, padding-left, 0px); /* setting LRT and RTL! */ 
+
+// define here inline your rtl conditions
+/* 
+  @include rtl {
+  	float: right;
+  	margin: 0 0 0 2%;	
+  }
+*/
+
+

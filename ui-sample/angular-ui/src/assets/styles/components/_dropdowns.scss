@@ -1,0 +1,42 @@
+.ui.sb-dotted-dropdown {
+    .menu {
+        right: 0;
+        left: auto; 
+        min-width: calculateRem(148px);
+        &>.item{
+            font-size:$font-size-sm;
+            &:hover {
+                color:$primary-400;
+            }
+        }
+    }
+}
+
+.sb-btn-dropdown {
+    &.ui.dropdown {
+        .menu {
+          top:100%;
+          &>.item {
+            font-size:$font-size-sm;
+          }
+        }
+    }
+}
+
+.sb-dropdown-rightaligned {
+    &.ui.dropdown {
+        .menu {
+            right: 0 !important;
+            left: auto !important;
+        }
+    }
+}
+
+.sb-dropdown-leftaligned {
+    &.ui.dropdown {
+        .menu {
+            left: 0 !important;
+            right: auto !important;
+        }
+    }
+}

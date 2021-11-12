@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60px" height="47px" viewBox="0 0 60 47" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ED23597B-3510-44A2-88EC-21F0BC1EB799</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FFD573" offset="0%"></stop>
+            <stop stop-color="#FFC63F" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Website" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="about-documents" transform="translate(-505.000000, -458.000000)" fill="url(#linearGradient-1)">
+            <g id="card/resource-copy-3" transform="translate(489.321001, 440.996000)">
+                <g id="Group-2" transform="translate(16.000000, 17.000000)">
+                    <path d="M23.4490358,0.101928375 L5.86225895,0.101928375 C2.63801653,0.101928375 0.0293112948,2.7399449 0.0293112948,5.96418733 L0,41.137741 C0,44.3619835 2.63801653,47 5.86225895,47 L52.7603306,47 C55.984573,47 58.6225895,44.3619835 58.6225895,41.137741 L58.6225895,11.8264463 C58.6225895,8.60220386 55.984573,5.96418733 52.7603306,5.96418733 L29.3112948,5.96418733 L23.4490358,0.101928375 L23.4490358,0.101928375 Z" id="Shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

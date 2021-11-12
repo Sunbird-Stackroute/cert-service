@@ -1,0 +1,145 @@
+<div class="sb-certificatePage-bg">
+	<ng-container *ngIf="showCertCheck">
+		<div class="sb-certificatePage certCheck">
+			<div class="sb-certificatePage-header">
+				<img src="assets/images/NIIT.jpeg" class="sb-certificatePage-logo" alt="NIIT Logo" title="NIIT Logo" />
+			</div>
+
+			<div class="sb-certificatePage-desc mb-auto m-0" title="QR with Verification Code">
+				<div *ngIf="loader">
+					<p>Verifying your certificates</p>
+					<img src="assets/images/loader.gif" class="sb-certificatePage-loader-img" alt="Loader" />
+				</div>
+				<img *ngIf="!loader" src="assets/images/certificate.png" class="sb-certificatePage-desc-img" alt="Certificate Desc" />
+			</div>
+
+			<div class="sb-certificatePage-form mb-auto">
+				<div class="sb-form-field-group">
+					<label *ngIf="!wrongCertificateCode" class="sb-certificatePage-label" for="certificate">Enter the 6 Digit QR Code</label>
+					<label *ngIf="wrongCertificateCode" class="sb-field-error-label sb-certificatePage-label sb-color-error" for="certificate">
+						Please enter valid 6 Digit QR code
+					</label>
+					<div class="sb-certificatePage-field sb-field" id="certificate">
+						<input
+							(keyup)="getCodeLength($event.target.value)"
+							(keydown.space)="$event.preventDefault()"
+							type="text"
+							maxlength="6"
+							required
+							autofocus
+							name="certificate"
+							class="sb-form-control text-center"
+							style="text-transform: uppercase" />
+						<button
+							type="button"
+              style="border: transparent; border-radius: 2px; padding: 8px; cursor: pointer;"
+							[disabled]="enableVerifyButton"
+							class="sb-btn-primary ripple width-100 mt-32 verifyBtn"
+							(click)="certificateVerify(certificateCode)">
+							Verify
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ng-container>
+
+	<ng-container *ngIf="showCertValid">
+		<div class="sb-certificatePage sb-certificate-view sb-certificatePage-flexHeight certValid">
+			<div class="sb-certificatePage-header">
+				<img src="assets/images/NIIT.jpeg" class="sb-certificatePage-logo" alt="NIIT Logo" title="NIIT Logo" />
+			</div>
+
+			<div class="sb-certificatePage-holder-details mb-auto">
+				<img src="assets/images/badge.svg" class="sb-icon-badge mt-24 mb-8" alt="Certificate Code Valid" />
+				<p class="sb-certificatePage-holder-desc sb-certificatePage-holder-desc-primary">Certificate issued to</p>
+				<!-- <h4 class="sb-certificatePage-holder-name">"Tanya Chauhan"</h4> -->
+				<h4 class="sb-certificatePage-holder-name">{{ recipientName }}</h4>
+				<p class="sb-certificatePage-holder-desc">
+					For successfully completing the course,
+					<!-- <strong class="d-block"> "Angular Master Class" </strong> -->
+					<strong class="d-block"> "{{ courseName }}" </strong>
+					<span class="d-block">
+						on NIIT on
+						<!-- <strong> 06/10/2021 </strong> -->
+						<strong> {{ courseDate }} </strong>
+					</span>
+				</p>
+			</div>
+
+			<div class="sb-certificatePage sb-certificate-view">
+				<div class="sb-certificatePage-holder-details">
+					<a class="width-100 d-flex flex-jc-space-between p-8 mt-16 cursor-pointer sb-btn-arrow" title="Go back" (click)="goBack()">
+						Go Back <i class="angle right icon"></i>
+					</a>
+
+					<div style="display: flex; justify-content: space-evenly; margin-top: 20px">
+						<div style="display: flex; zoom: 2; margin-right: 20px">
+							<!-- <span style="display: inline-block; font-size: 16px"> Share </span> -->
+							<fa-icon [icon]="faShareAlt" [styles]="{ color: '#767676', margin: '0 5px' }" title="Share to Social Media"></fa-icon>
+						</div>
+						<div style="display: flex; justify-content: space-evenly; zoom: 2">
+							<div (click)="dynamicSocialShare('linkedin')">
+								<fa-icon
+									class="social--animate__zoom"
+									[icon]="faLinkedin"
+									[styles]="{ color: '#0A66C2', cursor: 'pointer', margin: '0 5px' }"
+									title="Share on LinkedIn"></fa-icon>
+							</div>
+							<div (click)="dynamicSocialShare('facebook')">
+								<fa-icon
+									class="social--animate__zoom"
+									[icon]="faFacebookSquare"
+									[styles]="{ color: '#0F90F3', cursor: 'pointer', margin: '0 5px' }"
+									title="Share on Facebook"></fa-icon>
+							</div>
+							<div (click)="dynamicSocialShare('twitter')">
+								<fa-icon
+									class="social--animate__zoom"
+									[icon]="faTwitterSquare"
+									[styles]="{ color: '#228DD2', cursor: 'pointer', margin: '0 5px' }"
+									title="Share on Twitter"></fa-icon>
+							</div>
+							<!-- <a href="">
+								<fa-icon
+									class="social--animate__zoom"
+									[icon]="faInstagramSquare"
+									[styles]="{ color: '#C8399B', cursor: 'pointer', margin: '0 5px' }"
+									title="Share on Instagram"
+								></fa-icon>
+							</a> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ng-container>
+
+	<ng-container *ngIf="showCertInvalid">
+		<div class="sb-certificatePage sb-certificate-view sb-certificatePage-flexHeight certInvalid">
+			<div class="sb-certificatePage-header">
+				<img src="assets/images/NIIT.jpeg" class="sb-certificatePage-logo" alt="NIIT Logo" title="NIIT Logo" />
+			</div>
+
+			<div class="sb-certificatePage-holder-details mb-auto">
+				<img src="assets/images/alert.svg" class="sb-icon-badge mt-24 mb-8" alt="Certificate Code Invalid" height="60" />
+				<h4 class="sb-certificatePage-holder-name">Invalid 6 Digit QR code</h4>
+				<p class="sb-certificatePage-holder-desc">
+					Provided ID
+					<strong>{{ certificateID | uppercase }}</strong>
+					and QR Code
+					<strong>{{ certificateCode | uppercase }}</strong>
+					Combination does not exists!
+				</p>
+			</div>
+
+			<div class="sb-certificatePage sb-certificate-view">
+				<div class="sb-certificatePage-holder-details">
+					<a class="width-100 d-flex flex-jc-space-between p-8 mt-16 cursor-pointer sb-btn-arrow" title="Go back" (click)="goBack()">
+						Try again <i class="angle right icon"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	</ng-container>
+</div>
