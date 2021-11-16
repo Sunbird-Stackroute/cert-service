@@ -4,19 +4,23 @@
 `Node >=12 <=13`
 `Angular 7`
 
-### To run locally use the below commands,
-`npm install`
+### Run locally,
+1. `npm install`
 
-`ng serve -o`
+2. `ng serve -o`
 
-### To build on production use the below commands,
-`npm i`
+### Build for Production,
+1. `npm i`
 
-`npm run build`
+2. `npm run build`
+
+
+
+
 
 ### Incase of build error on production for `node-sass` use the below commands,
-`npm cache clean --force`
+1. `npm cache clean --force`
 
-`npm i --unsafe-perm node-sass`
+2. `npm i --unsafe-perm node-sass`
 
-and repeat steps from build for production
+3. Repeat steps from `Build for Production`
