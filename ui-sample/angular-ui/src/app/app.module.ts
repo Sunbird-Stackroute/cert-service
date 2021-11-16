@@ -23,6 +23,7 @@ import { MatDatepickerModule } from '@angular/material';
 import { MatNativeDateModule } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
 import { CertificatesComponent } from './components/cert-verify/cert-verify.component';
+import { LandingPageComponent } from './components/landingpage/landingpage.component';
 
 import { SlickModule } from 'ngx-slick';
 import { HighlightModule } from 'ngx-highlightjs';
@@ -40,6 +41,8 @@ import { HeadroomModule } from '@ctrl/ngx-headroom';
 import { ThemeService } from './theme.service';
 import { CountdownModule } from 'ngx-countdown';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SignupComponent } from './components/signup/signup.component';
+import { LoginComponent } from './components/login/login.component';
 
 export function hljsLanguages() {
   return [
@@ -58,6 +61,9 @@ export function hljsLanguages() {
     DefaultTemplateComponent,
     CreateCertificateComponent,
     CertificatesComponent,
+		LandingPageComponent,
+		LoginComponent,
+		SignupComponent
   ],
   imports: [
     BrowserModule,
