@@ -1,7 +1,7 @@
 # Certificate Service
 
 ### Requirement
-`Node >=12 <=13`
+`Node 12`
 `Angular 7`
 
 ### Run locally,
