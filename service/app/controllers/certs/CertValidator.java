@@ -1,5 +1,6 @@
 package controllers.certs;
 
+import controllers.Model.Certificate;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -38,6 +39,70 @@ public class CertValidator {
 
         Map<String, Object> certReq = (Map<String, Object>) request.getRequest().get(JsonKey.CERTIFICATE);
         if (((String) request.getContext().get(JsonKey.VERSION)).equalsIgnoreCase(JsonKey.VERSION_2)) {
+            checkMandatoryParamsPresent(certReq, JsonKey.CERTIFICATE, Arrays.asList( JsonKey.SVG_TEMPLATE));
+        } else {
+            checkMandatoryParamsPresent(certReq, JsonKey.CERTIFICATE, Arrays.asList( JsonKey.HTML_TEMPLATE));
+        }
+        validateCertData((List<Map<String, Object>>) certReq.get(JsonKey.DATA));
+        validateCertIssuer((Map<String, Object>) certReq.get(JsonKey.ISSUER));
+        validateCertSignatoryList((List<Map<String, Object>>) certReq.get(JsonKey.SIGNATORY_LIST));
+//        validateCriteria((Map<String, Object>) certReq.get(JsonKey.CRITERIA));
+//        validateTagId((String) certReq.get(JsonKey.TAG));
+        String basePath = (String) certReq.get(JsonKey.BASE_PATH);
+        if (StringUtils.isNotBlank(basePath)) {
+            validateBasePath(basePath);
+        }
+        String marks = (String) certReq.get(JsonKey.MARKS);
+        if (StringUtils.isNotBlank(marks)) {
+            double intMarks = Double.parseDouble(marks);
+            if (intMarks != 0) {
+                validateMarks(intMarks);
+            }
+        }
+        if (certReq.containsKey(JsonKey.STORE)) {
+            validateStore((Map<String, Object>) certReq.get(JsonKey.STORE));
+        }
+        if (certReq.containsKey(JsonKey.KEYS)) {
+            validateKeys((Map<String, Object>) certReq.get(JsonKey.KEYS));
+        }
+    }
+
+    public void validateBulkGenerateCertRequest(Request request) throws BaseException {
+
+        Map<String, Object> certReq =  request.getRequest();
+        if (((String) request.getContext().get(JsonKey.VERSION)).equalsIgnoreCase(JsonKey.VERSION_2)) {
+            checkMandatoryParamsPresent(certReq, JsonKey.CERTIFICATE, Arrays.asList( JsonKey.SVG_TEMPLATE));
+        } else {
+            checkMandatoryParamsPresent(certReq, JsonKey.CERTIFICATE, Arrays.asList( JsonKey.HTML_TEMPLATE));
+        }
+        validateCertData((List<Map<String, Object>>) certReq.get(JsonKey.DATA));
+        validateCertIssuer((Map<String, Object>) certReq.get(JsonKey.ISSUER));
+        validateCertSignatoryList((List<Map<String, Object>>) certReq.get(JsonKey.SIGNATORY_LIST));
+//        validateCriteria((Map<String, Object>) certReq.get(JsonKey.CRITERIA));
+//        validateTagId((String) certReq.get(JsonKey.TAG));
+        String basePath = (String) certReq.get(JsonKey.BASE_PATH);
+        if (StringUtils.isNotBlank(basePath)) {
+            validateBasePath(basePath);
+        }
+        String marks = (String) certReq.get(JsonKey.MARKS);
+        if (StringUtils.isNotBlank(marks)) {
+            double intMarks = Double.parseDouble(marks);
+            if (intMarks != 0) {
+                validateMarks(intMarks);
+            }
+        }
+        if (certReq.containsKey(JsonKey.STORE)) {
+            validateStore((Map<String, Object>) certReq.get(JsonKey.STORE));
+        }
+        if (certReq.containsKey(JsonKey.KEYS)) {
+            validateKeys((Map<String, Object>) certReq.get(JsonKey.KEYS));
+        }
+    }
+
+    public void validateBulkGenerateCertRequest(Certificate request) throws BaseException {
+
+        Map<String, Object> certReq = request.getRequest();
+        if (((String) request.getContext().get(JsonKey.VERSION)).equalsIgnoreCase(JsonKey.VERSION_2)) {
             checkMandatoryParamsPresent(certReq, JsonKey.CERTIFICATE, Arrays.asList(JsonKey.NAME, JsonKey.SVG_TEMPLATE));
         } else {
             checkMandatoryParamsPresent(certReq, JsonKey.CERTIFICATE, Arrays.asList(JsonKey.NAME, JsonKey.HTML_TEMPLATE));
@@ -65,7 +130,6 @@ public class CertValidator {
             validateKeys((Map<String, Object>) certReq.get(JsonKey.KEYS));
         }
     }
-
     private void validateCertSignatoryList(List<Map<String, Object>> signatoryList) throws BaseException {
         checkMandatoryParamsPresent(signatoryList, JsonKey.CERTIFICATE + "." + JsonKey.SIGNATORY_LIST, Arrays.asList(JsonKey.NAME, JsonKey.ID, JsonKey.DESIGNATION, JsonKey.SIGNATORY_IMAGE));
     }

@@ -51,6 +51,15 @@ public class CertModel {
     private String logoImage1;
     private String logoImage2;
 
+    private String certify;
+
+    private String textBeforeCourse;
+
+    private String textAfterCourse;
+
+
+
+
     private static ObjectMapper mapper = new ObjectMapper();
 
     public CertModel() {
@@ -237,6 +246,30 @@ public class CertModel {
 
     public void setLogoImage2(String logoImage2) {
         this.logoImage2 = logoImage2;
+    }
+
+    public String getCertify() {
+        return certify;
+    }
+
+    public void setCertify(String certify) {
+        this.certify = certify;
+    }
+
+    public String getTextBeforeCourse() {
+        return textBeforeCourse;
+    }
+
+    public void setTextBeforeCourse(String textBeforeCourse) {
+        this.textBeforeCourse = textBeforeCourse;
+    }
+
+    public String getTextAfterCourse() {
+        return textAfterCourse;
+    }
+
+    public void setTextAfterCourse(String textAfterCourse) {
+        this.textAfterCourse = textAfterCourse;
     }
 
     @Override

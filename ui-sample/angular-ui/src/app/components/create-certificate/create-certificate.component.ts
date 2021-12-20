@@ -156,7 +156,11 @@ export class CreateCertificateComponent implements OnInit {
       htmlTemplate: '',
       svgTemplate: '',
       recipientEmail: '',
-      logoImage1:''
+      logoImage1:'',
+      logoImage2:'',
+      certify: '',
+      textBeforeCourse: '',
+      textAfterCourse: ''
     };
     const data = [{
       recipientName: requestData.recipientName,
@@ -190,7 +194,10 @@ export class CreateCertificateComponent implements OnInit {
     certificate.recipientEmail = requestData.recipientEmail;
     certificate.recipientEmail = requestData.recipientEmail;
     certificate.logoImage1 = requestData.logoImage1;
-
+    certificate.logoImage2 = requestData.logoImage2;
+    certificate.certify = requestData.certify;
+    certificate.textBeforeCourse = requestData.textBeforeCourse;
+    certificate.textAfterCourse = requestData.textAfterCourse;
     if (this.preview) {
       certificate['preview'] = "true";
       this.preview = false;

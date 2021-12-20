@@ -132,13 +132,34 @@ public class CertificateGeneratorActor extends BaseActor {
             StringUtils.isNotBlank(reqMarks);
         }
         CertStoreFactory certStoreFactory = new CertStoreFactory(properties);
-        StoreConfig storeParams = new StoreConfig(getStorageParamsFromRequestOrEnv((Map<String, Object>) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.STORE)));
+        StoreConfig storeParams = null;
+        if(!request.getRequest().containsKey("signid")) {
+            storeParams = new StoreConfig(getStorageParamsFromRequestOrEnv((Map<String, Object>) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.STORE)));
+        }
+        else{
+            storeParams = new StoreConfig(getStorageParamsFromRequestOrEnv((Map<String, Object>) ((request).get(JsonKey.STORE))));
+        }
+
         ICertStore certStore = certStoreFactory.getCertStore(storeParams, BooleanUtils.toBoolean(properties.get(JsonKey.PREVIEW)));
         CertMapper certMapper = new CertMapper(properties);
-        List<CertModel> certModelList = certMapper.toList(request.getRequest());
+        List<CertModel> certModelList;
+        if(!request.getRequest().containsKey("signid")) {
+            certModelList = certMapper.toList(request.getRequest());
+        }
+        else
+        {
+            certModelList = certMapper.toList(request.getRequest());
+        }
         CertificateGenerator certificateGenerator = new CertificateGenerator(properties,directory);
         List<Map<String, Object>> certUrlList = new ArrayList<>();
-        String htmlTemplateUrl = (String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.HTML_TEMPLATE);
+        String htmlTemplateUrl = null;
+        if(!request.getRequest().containsKey("signid")) {
+            htmlTemplateUrl = (String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.HTML_TEMPLATE);
+        }
+        else
+        {
+            htmlTemplateUrl = (String) (request).get(JsonKey.HTML_TEMPLATE);
+        }
         for (CertModel certModel : certModelList) {
             String uuid = null;
             try {
@@ -157,7 +178,7 @@ public class CertificateGeneratorActor extends BaseActor {
                 Map<String, Object> req = new HashMap<>();
                 req.put(JsonKey.REQUEST, certificateResponse);
                 String requestBody = requestMapper.writeValueAsString(req);
-                CertRegistryAsyncService.makeAsyncPostCall(apiToCall, requestBody, headerMap);
+//                CertRegistryAsyncService.makeAsyncPostCall(apiToCall, requestBody, headerMap);
                 certUrlList.add(mapper.convertValue(certificateResponse, new TypeReference<Map<String, Object>>() {
                 }));
             } catch (Exception ex) {
@@ -316,41 +337,89 @@ public class CertificateGeneratorActor extends BaseActor {
 
     private HashMap<String, String> populatePropertiesMap(Request request) {
         HashMap<String, String> properties = new HashMap<>();
-        String tag = (String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.TAG);
-        String preview = (String) ((Map<String, Object>) request.getRequest().get(JsonKey.CERTIFICATE)).get(JsonKey.PREVIEW);
-        Map<String, Object> keysObject = (Map<String, Object>) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.KEYS);
-        certVar.setBasePath((String) ((Map<String, Object>) request.getRequest().get(JsonKey.CERTIFICATE))
-                .get(JsonKey.BASE_PATH));
-        if (MapUtils.isNotEmpty(keysObject)) {
-            String keyId = (String) keysObject.get(JsonKey.ID);
-            properties.put(JsonKey.KEY_ID, keyId);
-            properties.put(JsonKey.SIGN_CREATOR, certVar.getSignCreator(keyId));
-            properties.put(JsonKey.PUBLIC_KEY_URL, certVar.getPUBLIC_KEY_URL(keyId));
-            logger.info(request.getRequestContext(), "populatePropertiesMap: keys after {}", keyId);
+        if(!request.getRequest().containsKey("signid")) {
+
+            String tag = (String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.TAG);
+            String preview = (String) ((Map<String, Object>) request.getRequest().get(JsonKey.CERTIFICATE)).get(JsonKey.PREVIEW);
+            Map<String, Object> keysObject = (Map<String, Object>) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.KEYS);
+            certVar.setBasePath((String) ((Map<String, Object>) request.getRequest().get(JsonKey.CERTIFICATE))
+                    .get(JsonKey.BASE_PATH));
+            if (MapUtils.isNotEmpty(keysObject)) {
+                String keyId = (String) keysObject.get(JsonKey.ID);
+                properties.put(JsonKey.KEY_ID, keyId);
+                properties.put(JsonKey.SIGN_CREATOR, certVar.getSignCreator(keyId));
+                properties.put(JsonKey.PUBLIC_KEY_URL, certVar.getPUBLIC_KEY_URL(keyId));
+                logger.info(request.getRequestContext(), "populatePropertiesMap: keys after {}", keyId);
+            }
+            properties.put(JsonKey.TAG, tag);
+            properties.put(JsonKey.LOCATION,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.LOCATION));
+            properties.put(JsonKey.STUDENT_REG_NUM,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.STUDENT_REG_NUM));
+            properties.put(JsonKey.CERTIFICATE_NUM,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.CERTIFICATE_NUM));
+            properties.put(JsonKey.MARKS,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.MARKS));
+            properties.put(JsonKey.LOGO_IMAGE1,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.LOGO_IMAGE1));
+            properties.put(JsonKey.LOGO_IMAGE2,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.LOGO_IMAGE2));
+            properties.put(JsonKey.CERTIFY,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.CERTIFY));
+            properties.put(JsonKey.TEXT_BEFORE_COURSE,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.TEXT_BEFORE_COURSE));
+            properties.put(JsonKey.TEXT_AFTER_COURSE,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.TEXT_AFTER_COURSE));
+
+            properties.put(JsonKey.CONTAINER_NAME, certVar.getCONTAINER_NAME());
+            properties.put(JsonKey.BADGE_URL, certVar.getBADGE_URL(tag));
+            properties.put(JsonKey.ISSUER_URL, certVar.getISSUER_URL());
+            properties.put(JsonKey.EVIDENCE_URL, certVar.getEVIDENCE_URL());
+            properties.put(JsonKey.CONTEXT, certVar.getCONTEXT());
+            properties.put(JsonKey.VERIFICATION_TYPE, certVar.getVERIFICATION_TYPE());
+            properties.put(JsonKey.ACCESS_CODE_LENGTH, certVar.getACCESS_CODE_LENGTH());
+            properties.put(JsonKey.SIGN_URL, certVar.getEncSignUrl());
+            properties.put(JsonKey.SIGN_VERIFY_URL, certVar.getEncSignVerifyUrl());
+            properties.put(JsonKey.ENC_SERVICE_URL, certVar.getEncryptionServiceUrl());
+            properties.put(JsonKey.SIGNATORY_EXTENSION, certVar.getSignatoryExtensionUrl());
+            properties.put(JsonKey.SLUG, certVar.getSlug());
+            properties.put(JsonKey.PREVIEW, certVar.getPreview(preview));
+            properties.put(JsonKey.BASE_PATH, certVar.getBasePath());
+            properties.put(JsonKey.RECIPIENT_EMAIl,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.RECIPIENT_EMAIl));
+            logger.info(request.getRequestContext(), "getProperties:properties got from Constant File ".concat(Collections.singleton(properties.toString()) + ""));
         }
-        properties.put(JsonKey.TAG, tag);
-        properties.put(JsonKey.LOCATION,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.LOCATION));
-        properties.put(JsonKey.STUDENT_REG_NUM,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.STUDENT_REG_NUM));
-        properties.put(JsonKey.CERTIFICATE_NUM,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.CERTIFICATE_NUM));
-        properties.put(JsonKey.MARKS,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.MARKS));
-        properties.put(JsonKey.LOGO_IMAGE1,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.LOGO_IMAGE1));
-        properties.put(JsonKey.LOGO_IMAGE2,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.LOGO_IMAGE2));
-        properties.put(JsonKey.CONTAINER_NAME, certVar.getCONTAINER_NAME());
-        properties.put(JsonKey.BADGE_URL, certVar.getBADGE_URL(tag));
-        properties.put(JsonKey.ISSUER_URL, certVar.getISSUER_URL());
-        properties.put(JsonKey.EVIDENCE_URL, certVar.getEVIDENCE_URL());
-        properties.put(JsonKey.CONTEXT, certVar.getCONTEXT());
-        properties.put(JsonKey.VERIFICATION_TYPE, certVar.getVERIFICATION_TYPE());
-        properties.put(JsonKey.ACCESS_CODE_LENGTH, certVar.getACCESS_CODE_LENGTH());
-        properties.put(JsonKey.SIGN_URL, certVar.getEncSignUrl());
-        properties.put(JsonKey.SIGN_VERIFY_URL, certVar.getEncSignVerifyUrl());
-        properties.put(JsonKey.ENC_SERVICE_URL, certVar.getEncryptionServiceUrl());
-        properties.put(JsonKey.SIGNATORY_EXTENSION, certVar.getSignatoryExtensionUrl());
-        properties.put(JsonKey.SLUG, certVar.getSlug());
-        properties.put(JsonKey.PREVIEW, certVar.getPreview(preview));
-        properties.put(JsonKey.BASE_PATH, certVar.getBasePath());
-        properties.put(JsonKey.RECIPIENT_EMAIl,(String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.RECIPIENT_EMAIl));
-        logger.info(request.getRequestContext(), "getProperties:properties got from Constant File ".concat(Collections.singleton(properties.toString()) + ""));
+        else
+        {
+            String tag = (String) ( request.get(JsonKey.TAG));
+            String preview = (String) ( request.getRequest()).get(JsonKey.PREVIEW);
+            Map<String, Object> keysObject = (Map<String, Object>) (request).get(JsonKey.KEYS);
+            certVar.setBasePath((String) ( request.getRequest())
+                    .get(JsonKey.BASE_PATH));
+            if (MapUtils.isNotEmpty(keysObject)) {
+                String keyId = (String) keysObject.get(JsonKey.ID);
+                properties.put(JsonKey.KEY_ID, keyId);
+                properties.put(JsonKey.SIGN_CREATOR, certVar.getSignCreator(keyId));
+                properties.put(JsonKey.PUBLIC_KEY_URL, certVar.getPUBLIC_KEY_URL(keyId));
+                logger.info(request.getRequestContext(), "populatePropertiesMap: keys after {}", keyId);
+            }
+            properties.put(JsonKey.TAG, tag);
+            properties.put(JsonKey.LOCATION,(String) (request.get(JsonKey.LOCATION)));
+            properties.put(JsonKey.STUDENT_REG_NUM,(String) ( request.get(JsonKey.STUDENT_REG_NUM)));
+            properties.put(JsonKey.CERTIFICATE_NUM,(String) ( request.get(JsonKey.CERTIFICATE_NUM)));
+            properties.put(JsonKey.MARKS,(String) ( request.get(JsonKey.MARKS)));
+            properties.put(JsonKey.LOGO_IMAGE1,(String) ( request.get(JsonKey.LOGO_IMAGE1)));
+            properties.put(JsonKey.LOGO_IMAGE2,(String) ( request.get(JsonKey.LOGO_IMAGE2)));
+            properties.put(JsonKey.CERTIFY,(String) ( request.get(JsonKey.CERTIFY)));
+            properties.put(JsonKey.TEXT_BEFORE_COURSE,(String) ( request.get(JsonKey.TEXT_BEFORE_COURSE)));
+            properties.put(JsonKey.TEXT_AFTER_COURSE,(String) ( request.get(JsonKey.TEXT_AFTER_COURSE)));
+            properties.put(JsonKey.CONTAINER_NAME, certVar.getCONTAINER_NAME());
+            properties.put(JsonKey.BADGE_URL, certVar.getBADGE_URL(tag));
+            properties.put(JsonKey.ISSUER_URL, certVar.getISSUER_URL());
+            properties.put(JsonKey.EVIDENCE_URL, certVar.getEVIDENCE_URL());
+            properties.put(JsonKey.CONTEXT, certVar.getCONTEXT());
+            properties.put(JsonKey.VERIFICATION_TYPE, certVar.getVERIFICATION_TYPE());
+            properties.put(JsonKey.ACCESS_CODE_LENGTH, certVar.getACCESS_CODE_LENGTH());
+            properties.put(JsonKey.SIGN_URL, certVar.getEncSignUrl());
+            properties.put(JsonKey.SIGN_VERIFY_URL, certVar.getEncSignVerifyUrl());
+            properties.put(JsonKey.ENC_SERVICE_URL, certVar.getEncryptionServiceUrl());
+            properties.put(JsonKey.SIGNATORY_EXTENSION, certVar.getSignatoryExtensionUrl());
+            properties.put(JsonKey.SLUG, certVar.getSlug());
+            properties.put(JsonKey.PREVIEW, certVar.getPreview(preview));
+            properties.put(JsonKey.BASE_PATH, certVar.getBasePath());
+            properties.put(JsonKey.RECIPIENT_EMAIl,(String) ( request.get(JsonKey.RECIPIENT_EMAIl)));
+            logger.info(request.getRequestContext(), "getProperties:properties got from Constant File ".concat(Collections.singleton(properties.toString()) + ""));
+        }
         return properties;
     }
 

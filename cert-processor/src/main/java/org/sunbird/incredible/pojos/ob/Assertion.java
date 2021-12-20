@@ -74,6 +74,36 @@ public class Assertion extends OBBase {
 
     private String logoImage2;
 
+    private String certify;
+
+    private String textBeforeCourse;
+
+    private String textAfterCourse;
+
+    public String getTextAfterCourse() {
+        return textAfterCourse;
+    }
+
+    public void setTextAfterCourse(String textAfterCourse) {
+        this.textAfterCourse = textAfterCourse;
+    }
+
+    public String getTextBeforeCourse() {
+        return textBeforeCourse;
+    }
+
+    public void setTextBeforeCourse(String textBeforeCourse) {
+        this.textBeforeCourse = textBeforeCourse;
+    }
+
+    public String getCertify() {
+        return certify;
+    }
+
+    public void setCertify(String certify) {
+        this.certify = certify;
+    }
+
     public Assertion() {
     }
 

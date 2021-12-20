@@ -4,6 +4,7 @@
 package utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.sunbird.ActorServiceException;
 import org.sunbird.BaseException;
@@ -11,6 +12,8 @@ import org.sunbird.message.IResponseMessage;
 import org.sunbird.message.Localizer;
 import org.sunbird.message.ResponseCode;
 import play.libs.Json;
+
+import java.util.Map;
 
 /**
  * This class will map the requested json data into custom class.
@@ -38,6 +41,32 @@ public class RequestMapper {
             requestData = req.body().asJson();
             ObjectNode headerData = Json.mapper().valueToTree(req.getHeaders().toMap());
             ((ObjectNode) requestData).set("headers", headerData);
+            return Json.fromJson(requestData, obj);
+        } catch (Exception e) {
+//            ProjectLogger.log("RequestMapper:mapRequest: " + e.getMessage(), e);
+//            ProjectLogger.log("RequestMapper:mapRequest:Requested data " + requestData, LoggerEnum.INFO.name());
+
+            throw new ActorServiceException.InvalidRequestData(
+                    IResponseMessage.INVALID_REQUESTED_DATA,
+                    Localizer.getInstance().getMessage(IResponseMessage.INVALID_REQUESTED_DATA, null),
+                    ResponseCode.CLIENT_ERROR.getCode());
+        }
+    }
+    public static <T> Object mapBulkRequest(play.mvc.Http.Request req, Class<T> obj, Map map) throws BaseException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonNode= mapper.convertValue(map,JsonNode.class);
+        if (req == null) throw new ActorServiceException.InvalidRequestData(
+                IResponseMessage.INVALID_REQUESTED_DATA,
+                Localizer.getInstance().getMessage(IResponseMessage.INVALID_REQUESTED_DATA, null),
+                ResponseCode.CLIENT_ERROR.getCode());
+        JsonNode requestData = null;
+
+        try {
+            requestData =  jsonNode;
+            ObjectNode headerData = Json.mapper().valueToTree(req.getHeaders().toMap());
+
+            ((ObjectNode) requestData).set("headers", headerData);
+            System.out.println(requestData);
             return Json.fromJson(requestData, obj);
         } catch (Exception e) {
 //            ProjectLogger.log("RequestMapper:mapRequest: " + e.getMessage(), e);

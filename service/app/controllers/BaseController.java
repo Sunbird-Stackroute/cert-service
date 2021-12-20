@@ -1,5 +1,8 @@
 package controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -121,6 +124,34 @@ public class BaseController extends Controller {
 
 	}
 
+	public CompletionStage<Result> handleBulkRequest(ActorRef actorRef, play.mvc.Http.Request req, List<Map<String,Object>> map, RequestValidatorFunction validatorFunction,
+													 String operation) {
+		try {
+			Request request ;
+			List<Request> object = new ArrayList<>();
+			CompletionStage<Result> dta = null;
+			for(int i = 0;i<map.size();i++) {
+				if (req.body().asMultipartFormData() != null) {
+					request = (Request) RequestMapper.mapBulkRequest(req, Request.class, map.get(i));
+					request.setRequest(map.get(i));
+					request.setRequestContext(getRequestContext(req, operation));
+					object.add(request);
+				}
+				if (validatorFunction != null) {
+					validatorFunction.apply(object.get(i));
+				}
+				dta = new RequestHandler().handleRequest(object.get(i),actorRef,operation,req);
+
+			}
+			return dta;
+		} catch (BaseException ex) {
+			return CompletableFuture.completedFuture(RequestHandler.handleFailureResponse(ex, req));
+		} catch (Exception ex) {
+			return CompletableFuture.completedFuture(RequestHandler.handleFailureResponse(ex, req));
+		}
+
+	}
+
 	private RequestContext getRequestContext(Http.Request httpRequest, String actorOperation) {
 		RequestContext requestContext = new RequestContext(httpRequest.attrs().getOptional(TypedKey.<String>create("user_id")).orElse(null),
 				httpRequest.header("x-device-id").orElse(null), httpRequest.header("x-session-id").orElse(null),
@@ -175,4 +206,6 @@ public class BaseController extends Controller {
 		 */
 		return CompletableFuture.completedFuture( RequestHandler.handleSuccessResponse(response,null));
 	}
+
+
 }

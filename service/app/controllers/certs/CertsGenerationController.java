@@ -1,12 +1,21 @@
 package controllers.certs;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletionStage;
+import java.util.concurrent.ExecutionException;
 
 import akka.actor.ActorRef;
+import com.fasterxml.jackson.databind.MappingIterator;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sunbird.BaseException;
 import org.sunbird.es.ElasticSearchUtil;
 import org.sunbird.incredible.processor.JsonKey;
 import org.sunbird.cert.actor.operation.CertActorOperation;
@@ -118,4 +127,82 @@ public class CertsGenerationController  extends BaseController{
                 CertActorOperation.VALIDATE_TEMPLATE.getOperation());
 		return response;
     }
+
+	//New code
+	public CompletionStage<Result> bulkUpload(Http.Request httpRequest) throws IOException, BaseException, ExecutionException, InterruptedException {
+		File input = new File("/Users/vijaysharma/Desktop/sunbird/result.csv");
+		CsvSchema csv = CsvSchema.emptySchema().withHeader();
+		CsvMapper csvMapper = new CsvMapper();
+		MappingIterator<Map<String, Object>> mappingIterator =  csvMapper.reader().forType(Map.class).with(csv).readValues(input);
+		List<Map<String, Object>> list = mappingIterator.readAll();
+
+//			Map<String,Object> map = list.get(i);
+		List<Map<String ,Object>> mappedData = assignData(list);
+
+		CompletionStage<Result> response = handleBulkRequest(certGenerateActorRef, httpRequest,mappedData,
+				request -> {
+					Request req = (Request) request;
+					Map<String, Object> context = new HashMap<>();
+					context.put(JsonKey.VERSION, JsonKey.VERSION_1);
+					Map<String, Object> certReq =  req.getRequest();
+					String templateId = (String) certReq.get(JsonKey.HTML_TEMPLATE_ID);
+					String url = (String) ((HashMap) ElasticSearchUtil.getTemplates().get()).get(templateId);
+					certReq.put(JsonKey.HTML_TEMPLATE, url);
+					certReq.put(JsonKey.CERTIFICATE_NUM, JsonKey.CERT_PREFIX + CertificateNumberGenerator.getUniqueIdFromTimestamp(0));
+					logger.info("=============" + req);
+					context.put(JsonKey.LOCATION,certReq.get(JsonKey.LOCATION));
+					req.setContext(context);
+					new CertValidator().validateBulkGenerateCertRequest(req);
+					return null;
+				},
+				CertActorOperation.GENERATE_CERTIFICATE.getOperation());
+		return response;
+
+
+	}
+
+	private List<Map<String,Object>> assignData(List<Map<String, Object>> map) {
+		List<Map<String,Object>> newValues = new ArrayList<>();
+		Map<String,Object> mapValue;
+		for(int i=0;i<map.size() ; i++) {
+			mapValue = map.get(i);
+			//Data
+			List<Object> data = new ArrayList<>();
+			Map<String, Object> userdata = new HashMap<>();
+			userdata.put("recipientName", mapValue.get("recipientName"));
+			userdata.put("recipientEmail", mapValue.get("recipientEmail"));
+			userdata.put("recipientPhone", mapValue.get("recipientPhone"));
+			data.add(userdata);
+			mapValue.put("data", data);
+			//Issuer
+			Map<String, Object> issuer = new HashMap<>();
+			issuer.put("name", mapValue.get("issuername"));
+			issuer.put("url", mapValue.get("issuerurl"));
+			mapValue.put("issuer", issuer);
+
+			//SignatoryList
+			List<Object> signatoryList = new ArrayList<>();
+			Map<String, Object> signList = new HashMap<>();
+			signList.put("name", mapValue.get("signname"));
+			signList.put("designation", mapValue.get("signdesignation"));
+			signList.put("id", mapValue.get("signid"));
+			signList.put("image", mapValue.get("signimage"));
+			signatoryList.add(signList);
+			mapValue.put("signatoryList", signatoryList);
+			Http.RequestBody requ = new Http.RequestBody(map);
+
+			//StoreConfig
+			Map<String, Object> storeConfig = new HashMap<>();
+			Map<String, Object> azure = new HashMap<>();
+			storeConfig.put("type", mapValue.get("type"));
+			azure.put("account", mapValue.get("account"));
+			azure.put("key", mapValue.get("key"));
+			azure.put("containerName", mapValue.get("containerName"));
+			storeConfig.put("azure", azure);
+			mapValue.put("storeConfig", storeConfig);
+
+			newValues.add(mapValue);
+		}
+		return newValues;
+	}
 }

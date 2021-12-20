@@ -19,8 +19,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.sunbird.incredible.pojos.ob.SignedVerification;
 import org.sunbird.incredible.pojos.ob.exeptions.InvalidDateFormatException;
@@ -113,6 +115,19 @@ public class CertificateFactory {
         if (StringUtils.isNotBlank(certModel.getLogoImage2())) {
             certificateExtensionBuilder.setLogoImage2(properties.get(JsonKey.LOGO_IMAGE2));
         }
+
+        if (StringUtils.isNotBlank(certModel.getCertify())) {
+            certificateExtensionBuilder.setCertify(properties.get(JsonKey.CERTIFY));
+        }
+
+        if(StringUtils.isNotBlank(certModel.getTextBeforeCourse())) {
+            certificateExtensionBuilder.setTextBeforeCourse(properties.get(JsonKey.TEXT_BEFORE_COURSE));
+        }
+
+        if(StringUtils.isNotBlank(certModel.getTextAfterCourse())){
+            certificateExtensionBuilder.setTextAfterCourse(properties.get(JsonKey.TEXT_AFTER_COURSE));
+        }
+
         /**
          *
          * Certificate extension object

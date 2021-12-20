@@ -7,6 +7,7 @@ GET  /health                                  @controllers.health.HealthControll
 GET  /:service/health                      @controllers.health.HealthController.getServiceHealth(service:String, request: play.mvc.Http.Request)
 POST /v1/certs/generate                    @controllers.certs.CertsGenerationController.generateCerificate(request: play.mvc.Http.Request)
 POST /private/cert/v1/certs/generate        @controllers.certs.CertsGenerationController.generateCerificate(request: play.mvc.Http.Request)
+POST /v1/cert/bulkupload                   @controllers.certs.CertsGenerationController.bulkUpload(request: play.mvc.Http.Request)
 POST /v1/user/certs/download               @controllers.certs.CertsGenerationController.generateSignUrl(request: play.mvc.Http.Request)
 POST /v1/certs/verify                      @controllers.certs.CertsGenerationController.verifyCerificate(request: play.mvc.Http.Request)
 GET  /assets/*file        controllers.Assets.at(path="/public", file)

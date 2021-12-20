@@ -26,7 +26,14 @@ public class CertMapper {
     }
 
     public List<CertModel> toList(Map<String, Object> request) {
-        Map<String, Object> json = (Map<String, Object>) request.get(JsonKey.CERTIFICATE);
+        Map<String, Object> json;
+        if(!request.containsKey("signid")) {
+            json = (Map<String, Object>) request.get(JsonKey.CERTIFICATE);
+        }
+        else
+        {
+            json =  request;
+        }
         List<Map<String, Object>> dataList = (List<Map<String, Object>>) json.get(JsonKey.DATA);
         Map<String, Object> issuerData = (Map<String, Object>) json.get(JsonKey.ISSUER);
         Issuer issuer = getIssuer(issuerData);
@@ -50,6 +57,11 @@ public class CertMapper {
             cert.setCriteria(criteria);
             cert.setLogoImage1((String) json.get(JsonKey.LOGO_IMAGE1));
             cert.setLogoImage2((String) json.get(JsonKey.LOGO_IMAGE2));
+
+            cert.setCertify((String) json.get(JsonKey.CERTIFY));
+            cert.setTextBeforeCourse((String) json.get(JsonKey.TEXT_BEFORE_COURSE));
+            cert.setTextAfterCourse((String) json.get(JsonKey.TEXT_AFTER_COURSE));
+
             String issuedDate = (String) json.get(JsonKey.ISSUE_DATE);
             if (StringUtils.isBlank(issuedDate)) {
                 cert.setIssuedDate(getCurrentDate());
