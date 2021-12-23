@@ -214,9 +214,9 @@ public class CertsConstant {
 
     private Map<String, String> getAzureParams() {
         Map<String, String> azureParams = new HashMap<>();
-        azureParams.put(JsonKey.containerName, getCONTAINER_NAME());
-        azureParams.put(JsonKey.ACCOUNT, getAzureStorageKey());
-        azureParams.put(JsonKey.KEY, getAzureStorageSecret());
+        azureParams.put(JsonKey.containerName, "reports");
+        azureParams.put(JsonKey.ACCOUNT, "sunbird1dev1private");
+        azureParams.put(JsonKey.KEY, "unkD02q91kOBvr2uVR9ffw9EFdvtrVK2qNqYzrWFb2etRL3ztQxwevMO6IAr+LOj8u7c9p0F+PK4CpKeiBy0nA==");
         return azureParams;
     }
 

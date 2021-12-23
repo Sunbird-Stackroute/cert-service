@@ -15,12 +15,14 @@
                 "update": "Update",
                 "generate": "Generate",
                 "GenerateCertificate": "Certificate",
-                "preview":"Preview"
+                "preview":"Preview",
+                "BulkUpload":"BulkUpload"
             },
             "msg": {
                 "logInHead": "Log-in to your account",
                 "createAccount": "create account",
-                "generateCert": "Generate Certificate"
+                "generateCert": "Generate Certificate",
+                "bulkupload": "Upload File"
             }
         }
     }

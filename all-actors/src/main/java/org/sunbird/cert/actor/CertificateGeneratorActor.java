@@ -127,7 +127,7 @@ public class CertificateGeneratorActor extends BaseActor {
         logger.info(request.getRequestContext(), "Properties ====== {}", properties);
         String reqMarks = properties.get(JsonKey.MARKS);
         if (reqMarks != null) {
-                properties.put(JsonKey.IMPLICATION, marksToImplication(reqMarks));
+            properties.put(JsonKey.IMPLICATION, marksToImplication(reqMarks));
         } else {
             StringUtils.isNotBlank(reqMarks);
         }
@@ -178,7 +178,7 @@ public class CertificateGeneratorActor extends BaseActor {
                 Map<String, Object> req = new HashMap<>();
                 req.put(JsonKey.REQUEST, certificateResponse);
                 String requestBody = requestMapper.writeValueAsString(req);
-//                CertRegistryAsyncService.makeAsyncPostCall(apiToCall, requestBody, headerMap);
+                CertRegistryAsyncService.makeAsyncPostCall(apiToCall, requestBody, headerMap);
                 certUrlList.add(mapper.convertValue(certificateResponse, new TypeReference<Map<String, Object>>() {
                 }));
             } catch (Exception ex) {
@@ -432,7 +432,7 @@ public class CertificateGeneratorActor extends BaseActor {
         }
     }
 
-    private String marksToImplication(String reqMarks, String result) throws IOException, ParseException {
+    private String marksToImplication(String reqMarks) throws IOException, ParseException {
         double marks = Double.parseDouble(reqMarks);
         String implication = null;
         String filePath = new File("").getAbsolutePath();
@@ -449,13 +449,6 @@ public class CertificateGeneratorActor extends BaseActor {
         return implication;
     }
 
-    private String marksToImplication(String reqMarks) throws IOException, ParseException {
-        Map<String, Object> req = new HashMap<>();
-        req.put("marksObtained", reqMarks);
-        String requestBody = requestMapper.writeValueAsString(req);
-        String result = CertRegistryAsyncService.makeAsyncPostCall(RULES_SERVER_URL, requestBody, headerMap);
-        return result ;
-    }
 
     private void cleanup(String path, String fileName) {
       try {

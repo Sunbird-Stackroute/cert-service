@@ -11,7 +11,8 @@
 		"SHOW_CERT": "/templates/svg",
 		"EMAIL_NOTIFICATION": "/user/email",
 		"DISPLAY_CERT": "http://localhost:9010/certs/v1/registry/search",
-		"SEARCH_CERT": "http://localhost:9010/certs/v1/registry/search"
+		"SEARCH_CERT": "http://localhost:9010/certs/v1/registry/search",
+		"BULK_UPLOAD": "http://localhost:9000/v1/cert/bulkupload"
 	},
 	"PAGE_LIMIT": 20
 }

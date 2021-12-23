@@ -22,9 +22,11 @@ import { CreateCertificateComponent } from './components/create-certificate/crea
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDatepickerModule } from '@angular/material';
+import { MatDatepickerModule, MatProgressBarModule } from '@angular/material';
 import { MatNativeDateModule } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
+import { BulkuploadComponent } from './components/bulkupload/bulkupload.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +36,8 @@ import { MatIconModule } from '@angular/material/icon';
     LandingPageComponent,
     DefaultTemplateComponent,
     LoginComponent,
-    CreateCertificateComponent],
+    CreateCertificateComponent,
+    BulkuploadComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -51,7 +54,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatFormFieldModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressBarModule
 
   ],
   providers: [],

@@ -3,7 +3,7 @@
                 <div class="ui grid padded width-100">
                         <div class="six wide column p-0">
                                 <!--Logo-->
-                                <a class="d-flex logo" tabindex="0" role="banner">
+                                <a class="d-flex logo" tabindex="0" role="banner" routerLink="">
                                         <img class="cursor-pointer" alt="logo" src="/assets/images/NIIT.jpeg">
 
                                 </a>
@@ -38,7 +38,11 @@
                                                 <!-- <a class="item " routerLink="/logIn">
                                                         {{resourceService?.frmelmnts?.btn?.logIn}}
                                                 </a> -->
-
+                                                <a class="item"
+                                                [class.active]="router.isActive('bulkupload')"
+                                                routerLink="/bulkupload">
+                                                {{resourceService?.frmelmnts?.btn?.BulkUpload}}
+                                        </a>
                                         </ng-container>
                                 </div>
                                 <a class="profile-avtar computer only p-0 ml-15" tabindex="0" *ngIf="userLogin">

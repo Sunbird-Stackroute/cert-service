@@ -4,6 +4,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { LandingPageComponent } from './components/landingpage/landingpage.component';
 import { LoginComponent } from './components/login/login.component';
 import { CreateCertificateComponent } from './components/create-certificate/create-certificate.component';
+import { BulkuploadComponent } from './components/bulkupload/bulkupload.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,9 @@ const routes: Routes = [
   },
   {
     path: 'generate/certificate', component: CreateCertificateComponent
+  },
+  {
+    path: 'bulkupload', component: BulkuploadComponent
   }
 ];
 
