@@ -20,7 +20,7 @@ public class SendGridEmail {
         Mail mail;
         SendGrid sg;
         com.sendgrid.Response response = null;
-        Email from = new Email("vijaysharma723@gmail.com");
+        Email from = new Email("");
         from.setName("StackRoute Certification Service");
         int index = 0;
         for (String recipients : recipientId) {
@@ -29,7 +29,7 @@ public class SendGridEmail {
 //			int index = recipientId.indexOf(recipients);
             String body = "Dear " + recipientName.get(index) + ",<br/></br>" + "\n" + "<p>Congratulations, you have successfully completed a course titled : " + "\n" + courseName.get(index) + "\n" + ".</p> </br></br>" + "<p> You can download your certificate by following below link.</p>" + "\n" + "</br></br>" + pdfOrSvg.get(index) + "\n" + "<p></br></br>" + "Sincere Regards,</p>" + "<p></br>" + "NIIT Ltd</p>";
             Content content = new Content("text/html", body);
-            sg = new SendGrid("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");
+            sg = new SendGrid("");
 
             mail = new Mail(from, subject, to, content);
             request.setMethod(Method.POST);
