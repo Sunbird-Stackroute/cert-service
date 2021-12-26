@@ -42,7 +42,7 @@ export class CertificateService {
     const requestBody = queryInput;
     const headers = { 'content-type': 'application/json', 'Access-Control-Allow-Origin': '*' }
     return this.http.post(`${urlConfig.URLS.
-    SEARCH_CERT}`, requestBody, { head ers } )
+    SEARCH_CERT}`, requestBody, { headers } )
   }
 
   public displayCertificate(queryInput): Observable<any> {
