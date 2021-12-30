@@ -131,7 +131,7 @@ public class BaseController extends Controller {
 			List<Request> object = new ArrayList<>();
 			CompletionStage<Result> dta = null;
 			for(int i = 0;i<map.size();i++) {
-				if (req.body().asMultipartFormData() != null) {
+				if (req.body() != null) {
 					request = (Request) RequestMapper.mapBulkRequest(req, Request.class, map.get(i));
 					request.setRequest(map.get(i));
 					request.setRequestContext(getRequestContext(req, operation));

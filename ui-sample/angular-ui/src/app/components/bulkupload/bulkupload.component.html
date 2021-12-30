@@ -1,4 +1,4 @@
-<h3 style="margin-left: 45%;margin-top: 2%;">File Upload</h3>
+<!-- <h3 style="margin-left: 45%;margin-top: 2%;">File Upload</h3>
 <div class="first">
   
 <input type="file" class="file-input"
@@ -29,4 +29,8 @@
 
 </div>
 
-</div>
+</div> -->
+<form>
+<input type="file" (change)="onFileSelected($event)" accept=".csv">
+<button type = "button" (click) = "onUpload()">Upload</button>
+</form>

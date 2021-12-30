@@ -2,10 +2,11 @@ package controllers.certs;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
 
@@ -22,6 +23,7 @@ import org.sunbird.cert.actor.operation.CertActorOperation;
 
 import controllers.BaseController;
 import org.sunbird.request.Request;
+import play.api.libs.Files;
 import play.mvc.Http;
 import play.mvc.Result;
 import utils.module.CertificateNumberGenerator;
@@ -29,7 +31,6 @@ import utils.module.OnRequestHandler;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-
 /**
  * This controller is responsible for certificate generation.
  * @author manzarul
@@ -129,14 +130,13 @@ public class CertsGenerationController  extends BaseController{
     }
 
 	//New code
-	public CompletionStage<Result> bulkUpload(Http.Request httpRequest) throws IOException, BaseException, ExecutionException, InterruptedException {
-		File input = new File("/Users/vijaysharma/Desktop/sunbird/result.csv");
+	public CompletionStage<Result> bulkUpload(Http.Request httpRequest) throws IOException, BaseException, ExecutionException, InterruptedException, NoSuchFieldException {
+	  	String path = ExtractingTemperoryFilePath();
+	  	File input = new File(path);
 		CsvSchema csv = CsvSchema.emptySchema().withHeader();
 		CsvMapper csvMapper = new CsvMapper();
 		MappingIterator<Map<String, Object>> mappingIterator =  csvMapper.reader().forType(Map.class).with(csv).readValues(input);
 		List<Map<String, Object>> list = mappingIterator.readAll();
-
-//			Map<String,Object> map = list.get(i);
 		List<Map<String ,Object>> mappedData = assignData(list);
 
 		CompletionStage<Result> response = handleBulkRequest(certGenerateActorRef, httpRequest,mappedData,
@@ -205,4 +205,18 @@ public class CertsGenerationController  extends BaseController{
 		}
 		return newValues;
 	}
+
+	private String ExtractingTemperoryFilePath()
+	{
+		String tmdir = System.getProperty("java.io.tmpdir");
+		Path parentFolder = Paths.get(tmdir);
+		Optional<File> mostRecentFileOrFolder = Arrays.stream(parentFolder.toFile().listFiles()).max(Comparator.comparingLong(File::lastModified));
+		File mostRecent = mostRecentFileOrFolder.get();
+		String folderPath = mostRecent.getPath();
+		Path newParentFolder = Paths.get(folderPath);
+		Optional<File> mostRecentFile = Arrays.stream(newParentFolder.toFile().listFiles()).filter(f -> f.isFile()).max(Comparator.comparingLong(File::lastModified));
+		File absolutePath = mostRecentFile.get();
+		return absolutePath.getPath();
+	}
+
 }

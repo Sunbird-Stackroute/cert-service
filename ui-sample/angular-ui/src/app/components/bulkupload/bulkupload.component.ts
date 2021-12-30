@@ -15,44 +15,63 @@ export class BulkuploadComponent implements OnInit {
   uploadProgress:number;
     uploadSub: Subscription;
     requiredFileType:String;
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient
+    ) { }
 
   ngOnInit() {
-    this.requiredFileType = ".csv";
+    // this.requiredFileType = ".csv";
   }
-  onFileSelected(event) {
-    const file:File = event.target.files[0];
+//   onFileSelected(event) {
+//     const file:File = event.target.files[0];
   
-    if (file) {
-        this.fileName = file.name;
-        const formData = new FormData();
-        formData.append("thumbnail", file);
+//     if (file) {
+//         this.fileName = file.name;
+//         const formData = new FormData();
+//         formData.append("thumbnail", file);
         
-        const upload$ = this.http.post("/v1/cert/bulkupload", formData, {
-            reportProgress: true,
-            observe: 'events'
-        })
-        .pipe(
-            finalize(() => this.reset())
-        );
+//         const upload$ = this.http.post("/v1/cert/bulkupload", formData, {
+//             reportProgress: true,
+//             observe: 'events'
+//         })
+//         .pipe(
+//             finalize(() => this.reset())
+//         );
       
-        this.uploadSub = upload$.subscribe(event => {
-          if (event.type == HttpEventType.UploadProgress) {
-            this.uploadProgress = Math.round(100 * (event.loaded / event.total));
-          }
-        })
-    }
+//         this.uploadSub = upload$.subscribe(event => {
+//           if (event.type == HttpEventType.UploadProgress) {
+//             this.uploadProgress = Math.round(100 * (event.loaded / event.total));
+//           }
+//         })
+//     }
+// }
+
+// cancelUpload() {
+// this.uploadSub.unsubscribe();
+// this.reset();
+// }
+
+// reset() {
+// this.uploadProgress = null;
+// this.uploadSub = null;
+// }
+
+selectedfFile:File = null;
+
+onFileSelected(event){
+this.selectedfFile = event.target.files[0];
+console.log('file',this.selectedfFile)
 }
 
-cancelUpload() {
-this.uploadSub.unsubscribe();
-this.reset();
+onUpload()
+{
+  const fd = new FormData();
+  fd.append('csv',this.selectedfFile); 
+this.http.post('http://localhost:9000/v1/cert/bulkupload',fd,{
+  reportProgress:true,
+  observe:'events'
+}).subscribe(event =>{
+  console.log(event);
+});
 }
-
-reset() {
-this.uploadProgress = null;
-this.uploadSub = null;
-}
-
-
 }
