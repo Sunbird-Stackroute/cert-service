@@ -64,7 +64,7 @@ console.log('file',this.selectedfFile)
 }
 
 onUpload()
-{
+{ if(this.selectedfFile != null){
   const fd = new FormData();
   fd.append('csv',this.selectedfFile); 
 this.http.post('http://localhost:9000/v1/cert/bulkupload',fd,{
@@ -73,5 +73,6 @@ this.http.post('http://localhost:9000/v1/cert/bulkupload',fd,{
 }).subscribe(event =>{
   console.log(event);
 });
+}
 }
 }
