@@ -1,36 +1,34 @@
-<!-- <h3 style="margin-left: 45%;margin-top: 2%;">File Upload</h3>
-<div class="first">
-  
-<input type="file" class="file-input"
-       [accept]="requiredFileType"
-       (change)="onFileSelected($event)" #fileUpload>
+<!-- 
+<h1 style="margin-top: 2%;">Bulk Certificate</h1>
+<h2>Upload CSV</h2>
 
-<div class="file-upload">
-
-   {{fileName || "No file uploaded yet."}}
-
-    <button mat-mini-fab color="primary" class="upload-btn"
-      (click)="fileUpload.click()">
-        <mat-icon>attach_file</mat-icon>
-
-    </button>
-
-</div>
-
-<div class="progress">
-
-  <mat-progress-bar class="progress-bar" mode="determinate"
-                    [value]="uploadProgress" *ngIf="uploadProgress">
-
-  </mat-progress-bar>
-
-  <mat-icon class="cancel-upload" (click)="cancelUpload()" 
-            *ngIf="uploadProgress">delete_forever</mat-icon>
-
-</div>
-
-</div> -->
-<form>
-<input type="file" (change)="onFileSelected($event)" accept=".csv">
-<button type = "button" (click) = "onUpload()">Upload</button>
+<form action="#" style="margin-top:2%;margin-bottom: 8.4%;">
+  <div class="input-file-container">  
+    <input type="file" #UploadFileInput   (change)="onFileSelected($event)" accept=".csv">
+<button mat-raised-button color="primary" type = "button" style="margin-top: 20%;" [disabled]="disabled" (click) = "onUpload()">Upload</button>
+    
+  </div>
+  <p class="file-return"></p>
 </form>
+ -->
+ <div style="margin-top:27.5%"></div>
+ <div class="zone">
+
+  <div id="dropZ">
+    <i class="fa fa-cloud-upload"></i>
+    <!-- <div>Drag and drop your file here</div>                    
+    <span>OR</span> -->
+    <div><b>{{fileName}}</b></div>
+    <div  class="selectFile"> 
+      <div *ngIf="disabled == true">   
+      <label  for="file">Select file</label>         
+      <input  type="file" #UploadFileInput   (change)="onFileSelected($event)" accept=".csv">
+      </div>  
+        <button *ngIf="disabled == false" mat-raised-button color="primary" type = "button" style="margin-top: 0%;min-width: 200px;line-height: 50px;color: #EB6A5A;background-color: #fff;font-family: sans-serif;" [disabled]="disabled" (click) = "onUpload()">Upload file</button>
+    </div>
+
+    
+    <p>File size limit : 10 MB</p>
+  </div>
+
+</div>

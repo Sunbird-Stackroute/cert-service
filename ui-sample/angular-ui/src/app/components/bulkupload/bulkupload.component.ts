@@ -1,8 +1,8 @@
-import { HttpClient, HttpEventType } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
-
+import { MatSnackBar, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { CertificateService } from 'src/app/services/certificate/certificate.service';
 
 @Component({
   selector: 'app-bulkupload',
@@ -10,69 +10,61 @@ import { finalize } from 'rxjs/operators';
   styleUrls: ['./bulkupload.component.scss']
 })
 export class BulkuploadComponent implements OnInit {
-
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+  disabled = true;
   fileName = '';
-  uploadProgress:number;
-    uploadSub: Subscription;
-    requiredFileType:String;
+  uploadProgress: number;
+  uploadSub: Subscription;
+  requiredFileType: String;
+  data: number
+  durationInSeconds = 3;
+  service: CertificateService;
   constructor(
-    private http: HttpClient
-    ) { }
+    private http: HttpClient,
+    readonly snackBar: MatSnackBar,
+    service: CertificateService
+  ) {
+    this.service = service;
+  }
 
   ngOnInit() {
-    // this.requiredFileType = ".csv";
   }
-//   onFileSelected(event) {
-//     const file:File = event.target.files[0];
-  
-//     if (file) {
-//         this.fileName = file.name;
-//         const formData = new FormData();
-//         formData.append("thumbnail", file);
-        
-//         const upload$ = this.http.post("/v1/cert/bulkupload", formData, {
-//             reportProgress: true,
-//             observe: 'events'
-//         })
-//         .pipe(
-//             finalize(() => this.reset())
-//         );
-      
-//         this.uploadSub = upload$.subscribe(event => {
-//           if (event.type == HttpEventType.UploadProgress) {
-//             this.uploadProgress = Math.round(100 * (event.loaded / event.total));
-//           }
-//         })
-//     }
-// }
 
-// cancelUpload() {
-// this.uploadSub.unsubscribe();
-// this.reset();
-// }
+  selectedfFile: File = null;
 
-// reset() {
-// this.uploadProgress = null;
-// this.uploadSub = null;
-// }
+  onFileSelected(event) {
+    if (event.target.files.length > 0) {
+      this.fileName = event.target.files[0].name;
+      this.disabled = false;
+      this.selectedfFile = event.target.files[0];
+    }
+    else {
+      this.disabled = true;
+    }
+  }
 
-selectedfFile:File = null;
+  onUpload() {
+    if (this.selectedfFile != null) {
+      this.disabled = true;
+      this.fileName = null;
+      const fd = new FormData();
+      fd.append('csv', this.selectedfFile);
+      this.service.bulkCertificate(fd)
+        .subscribe(event => {
+          if (event.type != 0) {
+            this.open("File Uploaded Successfully", "File Uploaded!");
+          }
+        }, (error) => {
+          this.open("Unexpected error", "Unable to Upload File")
+          console.log(error)
+        });
+    }
+  }
 
-onFileSelected(event){
-this.selectedfFile = event.target.files[0];
-console.log('file',this.selectedfFile)
-}
-
-onUpload()
-{ if(this.selectedfFile != null){
-  const fd = new FormData();
-  fd.append('csv',this.selectedfFile); 
-this.http.post('http://localhost:9000/v1/cert/bulkupload',fd,{
-  reportProgress:true,
-  observe:'events'
-}).subscribe(event =>{
-  console.log(event);
-});
-}
-}
+  open(action: string, message: string) {
+    return this.snackBar.open(message, action, {
+      verticalPosition: this.verticalPosition,
+      duration: this.durationInSeconds * 1000,
+    });
+  }
 }
