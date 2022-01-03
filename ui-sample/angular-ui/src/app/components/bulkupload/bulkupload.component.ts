@@ -52,7 +52,7 @@ export class BulkuploadComponent implements OnInit {
       this.service.bulkCertificate(fd)
         .subscribe(event => {
           if (event.type != 0) {
-            this.open("File Uploaded Successfully", "File Uploaded!");
+            this.open("Certificate created from CSV", "File Uploaded!");
           }
         }, (error) => {
           this.open("Unexpected error", "Unable to Upload File")

@@ -53,7 +53,6 @@ export class CertificateService {
 
   public bulkCertificate(queryInput: FormData):Observable<any>{
     const requestBody = queryInput;
-    const headers = { 'content-type': 'application/json', 'Access-Control-Allow-Origin': '*' }
     return this.http.post(`${urlConfig.URLS.BULK_UPLOAD}`, requestBody, {
       reportProgress:true,
       observe:'events'
