@@ -120,8 +120,8 @@ public class CertificateGeneratorActor extends BaseActor {
         logger.info(null, "CertificateGeneratorActor:getTimeoutInSeconds:timeout got: ".concat(timeoutInSecondsStr));
         return Integer.parseInt(timeoutInSecondsStr);
     }
-
     private void generateCertificate(Request request) throws BaseException, IOException, ParseException {
+
         logger.info(request.getRequestContext(), "Request received====== {}", request.getRequest());
         Map<String, String> properties = populatePropertiesMap(request);
         logger.info(request.getRequestContext(), "Properties ====== {}", properties);
@@ -176,11 +176,18 @@ public class CertificateGeneratorActor extends BaseActor {
                 certificateResponse.setJsonUrl(properties.get(JsonKey.BASE_PATH).concat((String) uploadRes.get(JsonKey.JSON_URL)));
                 String apiToCall = CERT_REGISTRY_SERVICE + REGISTRY_PDF_URL;
                 Map<String, Object> req = new HashMap<>();
+                if(!request.getRequest().containsKey("signid")) {
                 req.put(JsonKey.REQUEST, certificateResponse);
+                }
+                else
+                {
+                    req.put(JsonKey.REQUEST, certificateResponse);
+                }
                 String requestBody = requestMapper.writeValueAsString(req);
                 CertRegistryAsyncService.makeAsyncPostCall(apiToCall, requestBody, headerMap);
                 certUrlList.add(mapper.convertValue(certificateResponse, new TypeReference<Map<String, Object>>() {
                 }));
+
             } catch (Exception ex) {
                 logger.error(request.getRequestContext(),"generateCertificate:Exception Occurred while generating certificate. : {}" + ex.getMessage(), ex);
                 throw new BaseException(IResponseMessage.INTERNAL_ERROR, ex.getMessage(), ResponseCode.SERVER_ERROR.getCode());
@@ -338,7 +345,6 @@ public class CertificateGeneratorActor extends BaseActor {
     private HashMap<String, String> populatePropertiesMap(Request request) {
         HashMap<String, String> properties = new HashMap<>();
         if(!request.getRequest().containsKey("signid")) {
-
             String tag = (String) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.TAG);
             String preview = (String) ((Map<String, Object>) request.getRequest().get(JsonKey.CERTIFICATE)).get(JsonKey.PREVIEW);
             Map<String, Object> keysObject = (Map<String, Object>) ((Map) request.get(JsonKey.CERTIFICATE)).get(JsonKey.KEYS);
@@ -418,6 +424,7 @@ public class CertificateGeneratorActor extends BaseActor {
             properties.put(JsonKey.PREVIEW, certVar.getPreview(preview));
             properties.put(JsonKey.BASE_PATH, certVar.getBasePath());
             properties.put(JsonKey.RECIPIENT_EMAIl,(String) ( request.get(JsonKey.RECIPIENT_EMAIl)));
+            properties.put(JsonKey.FILENAME,(String) ( request.get(JsonKey.FILENAME)));
             logger.info(request.getRequestContext(), "getProperties:properties got from Constant File ".concat(Collections.singleton(properties.toString()) + ""));
         }
         return properties;

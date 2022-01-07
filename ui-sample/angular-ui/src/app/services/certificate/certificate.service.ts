@@ -58,4 +58,8 @@ export class CertificateService {
       observe:'events'
      })
   }
+
+  public getAllRecords():Observable<any>{
+    return this.http.get(`${urlConfig.URLS.ALL_DATA}`);
+  }
 }

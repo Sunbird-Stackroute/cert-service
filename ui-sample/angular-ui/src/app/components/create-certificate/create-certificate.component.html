@@ -131,7 +131,7 @@
 							<p class="tac">Notification</p>
 							<div class="mt-20 d-flex flex-jc-flex-end">
 								<input id="searchBy" size="35" matInput type="search"
-									placeholder="Search by Issuer, Certno. or Regno." />
+									placeholder="Search by Issuer, Certno. or Regno. or fileName" />
 
 								<button class="ui blue button" (click)="searchByFilter()">Search</button>
 
@@ -168,6 +168,7 @@
 									<th>Certificate No.</th>
 									<th>Issuer Name</th>
 									<th>Recipient Name</th>
+									<th>fileName</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -183,6 +184,7 @@
 									<td>{{ showCert.certNo }}</td>
 									<td>{{ showCert.issuerName }}</td>
 									<td>{{ showCert.recipientName }}</td>
+									<td>{{ showCert.fileName }}</td>
 								</tr>
 							</tbody>
 						</table>

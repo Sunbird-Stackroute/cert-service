@@ -128,6 +128,10 @@ public class CertificateFactory {
             certificateExtensionBuilder.setTextAfterCourse(properties.get(JsonKey.TEXT_AFTER_COURSE));
         }
 
+        if(StringUtils.isNotBlank(certModel.getFileName())){
+            certificateExtensionBuilder.setFileName(properties.get(JsonKey.FILENAME));
+        }
+
         /**
          *
          * Certificate extension object

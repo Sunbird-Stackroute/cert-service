@@ -57,12 +57,28 @@ public class CertModel {
 
     private String textAfterCourse;
 
-
+    private String fileName;
 
 
     private static ObjectMapper mapper = new ObjectMapper();
 
     public CertModel() {
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public static ObjectMapper getMapper() {
+        return mapper;
+    }
+
+    public static void setMapper(ObjectMapper mapper) {
+        CertModel.mapper = mapper;
     }
 
     public String getCourseName() {

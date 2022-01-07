@@ -44,6 +44,8 @@ public class CertMapper {
         Criteria criteria = getCriteria((Map<String, Object>) json.get(JsonKey.CRITERIA));
         List<CertModel> certList = dataList.stream().map(data -> getCertModel(data)).collect(Collectors.toList());
         certList.stream().forEach(cert -> {
+            if(request.containsKey("signid"))
+            cert.setFileName((String) json.get(JsonKey.FILENAME));
             cert.setIssuer(issuer);
             cert.setSignatoryList(signatoryArr);
             cert.setCourseName((String) json.get(JsonKey.COURSE_NAME));

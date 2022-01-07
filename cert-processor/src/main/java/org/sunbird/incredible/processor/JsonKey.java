@@ -154,5 +154,5 @@ public interface JsonKey {
     String CERTIFY= "certify";
     String TEXT_BEFORE_COURSE = "textBeforeCourse";
     String TEXT_AFTER_COURSE = "textAfterCourse";
-
+    String FILENAME = "fileName";
 }

@@ -299,7 +299,8 @@ export class CreateCertificateComponent implements OnInit {
               studentRegNo: regNo,
               certificateNum: certNo,
               recipient: { name: recipientName },
-              badge: { issuer: { name: issuerName }, name: courseName }
+              badge: { issuer: { name: issuerName }, name: courseName },
+              fileName:fileName
             }
           }
         } = res;
@@ -312,7 +313,8 @@ export class CreateCertificateComponent implements OnInit {
           pdfUrl,
           svgUrl,
           recipientName,
-          courseName
+          courseName,
+          fileName
         });
       });
       console.log(this.showAllCertToSendEmail);
@@ -371,7 +373,8 @@ export class CreateCertificateComponent implements OnInit {
               studentRegNo: regNo,
               certificateNum: certNo,
               recipient: { name: recipientName },
-              badge: { issuer: { name: issuerName }, name: courseName }
+              badge: { issuer: { name: issuerName }, name: courseName },
+              fileName:fileName
             }
           }
         } = res;
@@ -384,7 +387,8 @@ export class CreateCertificateComponent implements OnInit {
           pdfUrl,
           svgUrl,
           recipientName,
-          courseName
+          courseName,
+          fileName
         });
       });
       console.log(this.showAllCertToSendEmail);
@@ -441,6 +445,7 @@ export class CreateCertificateComponent implements OnInit {
         }
       }
     }
+    console.log(searchData)
     if (searchData.startsWith("R")) {
       queryData.request.query.bool.must.push(
         { "match": { "data.studentRegNo": searchData } },
@@ -449,7 +454,15 @@ export class CreateCertificateComponent implements OnInit {
       queryData.request.query.bool.must.push(
         { "match": { "data.certificateNum": searchData } }
       );
-    } else {
+      
+    }
+    else if (searchData.startsWith("r")) {
+      queryData.request.query.bool.must.push(
+        { "match": { "data.fileName": searchData } }
+      );
+      
+    } 
+    else {
       queryData.request.query.bool.must.push(
         { "match": { "data.badge.issuer.name": searchData } },
 
@@ -470,7 +483,8 @@ export class CreateCertificateComponent implements OnInit {
               studentRegNo: regNo,
               certificateNum: certNo,
               recipient: { name: recipientName },
-              badge: { issuer: { name: issuerName }, name: courseName }
+              badge: { issuer: { name: issuerName }, name: courseName },
+              fileName:fileName
             }
           }
         } = res;
@@ -482,7 +496,8 @@ export class CreateCertificateComponent implements OnInit {
           recipientEmail,
           pdfUrl,
           recipientName,
-          courseName
+          courseName,
+          fileName
         });
       });
       console.log(this.showAllCertToSendEmail);

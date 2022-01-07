@@ -137,7 +137,7 @@ public class CertsGenerationController  extends BaseController{
 		CsvMapper csvMapper = new CsvMapper();
 		MappingIterator<Map<String, Object>> mappingIterator =  csvMapper.reader().forType(Map.class).with(csv).readValues(input);
 		List<Map<String, Object>> list = mappingIterator.readAll();
-		List<Map<String ,Object>> mappedData = assignData(list);
+		List<Map<String ,Object>> mappedData = assignData(list,httpRequest);
 
 		CompletionStage<Result> response = handleBulkRequest(certGenerateActorRef, httpRequest,mappedData,
 				request -> {
@@ -161,7 +161,11 @@ public class CertsGenerationController  extends BaseController{
 
 	}
 
-	private List<Map<String,Object>> assignData(List<Map<String, Object>> map) {
+	private List<Map<String,Object>> assignData(List<Map<String, Object>> map,Http.Request httpRequest) {
+	  	String fileName = httpRequest.body().asMultipartFormData().getFiles().get(0).getFilename();
+		long epoch = 0;
+	  	epoch = System.currentTimeMillis();
+	  	fileName = fileName+epoch;
 		List<Map<String,Object>> newValues = new ArrayList<>();
 		Map<String,Object> mapValue;
 		for(int i=0;i<map.size() ; i++) {
@@ -200,7 +204,7 @@ public class CertsGenerationController  extends BaseController{
 			azure.put("containerName", mapValue.get("containerName"));
 			storeConfig.put("azure", azure);
 			mapValue.put("storeConfig", storeConfig);
-
+			mapValue.put("fileName",fileName);
 			newValues.add(mapValue);
 		}
 		return newValues;

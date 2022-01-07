@@ -22,7 +22,7 @@ const routes: Routes = [
   },
   {
     path: 'bulkupload', component: BulkuploadComponent
-  }
+  },
 ];
 
 @NgModule({

@@ -134,6 +134,12 @@ public class CertificateExtensionBuilder implements IBuilder<CertificateExtensio
 
         return this;
     }
+
+    public  CertificateExtensionBuilder setFileName(String fileName){
+        certificateExtension.setFileName(fileName);
+
+        return this;
+    }
     @Override
     public CertificateExtension build() {
         return certificateExtension;
